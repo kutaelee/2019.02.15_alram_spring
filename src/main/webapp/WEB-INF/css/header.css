@@ -1,0 +1,106 @@
+@font-face {
+	font-family: 'GyeonggiBatang';
+	src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GyeonggiBatang.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'NanumSquareRound';
+	src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+.line{
+    position: absolute;
+    margin-left: 0%;
+    height: 100%;
+    width: 5%;
+    background: cadetblue;
+}
+.nav_body {
+	background: cadetblue;
+	margin-top: -5%;
+	height: 110%;
+	width: 30%;
+	position: absolute;
+	margin-left: 101%;
+}
+
+.nav_body ul {
+	transform: rotate(2deg);
+	margin-top: 30%;
+	list-style: none;
+	font-size: 21px;
+	margin-left: 0%;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+.nav_body li {
+	margin-bottom: 5%;
+	cursor: pointer;
+	font-family: 'NanumSquareRound';
+}
+
+.nav_body a {
+	text-decoration: none;
+	color: white;
+}
+
+#menu_toggle {
+	cursor: pointer;
+	width: 40;
+	z-index: 100;
+	display: inline-block;
+	position: absolute;
+	margin-left: 95%;
+	margin-top: 2vh;
+}
+
+#menu_toggle .one, #menu_toggle .two {
+	margin-bottom: 5px;
+}
+
+#menu_toggle div {
+	background: cadetblue;
+	border-radius: 25px;
+	box-shadow: 0px 3px 13px rgba(95, 158, 160, 0.8);
+	height: 9px;
+	transition-duration: 250ms;
+	transition-timing-function: cubic-bezier(.13, .24, .35, 1.64);
+}
+
+.change .one {
+	transform: rotate(-45deg) translate(-9px, 10px);
+	transition: 2s;
+}
+
+.change .two {
+	opacity: 0;
+}
+
+.change .three {
+	transform: rotate(45deg) translate(-9px, -11px);
+	transition: 2s;
+}
+
+h1 {
+	color: #2C7873;
+	font-family: 'NanumSquareRound';
+}
+
+h2 {
+	font-family: 'GyeonggiBatang';
+	color: cadetblue;
+}
+h4 {
+	font-family: 'GyeonggiBatang';
+	color: #004445;
+}
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
