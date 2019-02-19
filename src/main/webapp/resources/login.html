@@ -2,8 +2,13 @@
 <head>
 <meta charset="utf-8">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="/js/login.js?ver=7"></script>
+<script src="/js/login.js?ver=8"></script>
 <link href="/css/login.css?ver=2" rel="stylesheet">
+<!-- rsa 라이브러리 -->
+<script src="/js/rsa/jsbn.js"></script>
+<script src="/js/rsa/rsa.js"></script>
+<script src="/js/rsa/prng4.js"></script>
+<script src="/js/rsa/rng.js"></script>
 </head>
 <body class="login">
 
@@ -14,9 +19,9 @@
 
 <form class="login_form">
 <p>ID</p>
-<input type="text" placeholder="Your ID">
+<input type="text" class="login_id" placeholder="Your ID">
 <p>Password</p>
-<input type="password" placeholder="●●●●●●">
+<input type="password" class="login_pw" placeholder="●●●●●●">
 </form>
 <button class="login_btn">로그인</button>
 </div>

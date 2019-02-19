@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Handles requests for the application home page.
+ * 변경 테스트
  */
 @Controller
 public class HomeController {
@@ -56,12 +56,5 @@ public class HomeController {
 			return false;
 		}
 	}
-	@GetMapping(value="joinpage")
-	public String joinpage() {
-		return "join";
-	}
-	@GetMapping(value="loginpage")
-	public String loginpage() {
-		return "login";
-	}
+
 }

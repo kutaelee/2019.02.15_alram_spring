@@ -10,10 +10,10 @@
 }
 
 .content {
-    width: 80%;
-    height: 100%;
-    margin-left: 1%;
-    margin-top: 6%;
+	width: 80%;
+	height: 100%;
+	margin-left: 1%;
+	margin-top: 6%;
 }
 
 .left {
@@ -21,7 +21,7 @@
 	text-align: right;
 	margin-right: 1%;
 	position: absolute;
-    margin-top: -3%;
+	margin-top: -3%;
 	height: 100%;
 }
 
@@ -49,6 +49,7 @@
 	font-family: 'GyeonggiBatang';
 	font-weight: 600;
 	letter-spacing: 1px;
+	padding-left: 5;
 }
 
 .join_btn {
@@ -73,4 +74,18 @@
 
 .join_title {
 	font-size: 45px;
+}
+
+.join_info {
+	width: 30%;
+	height: 50%;
+	position: absolute;
+	margin-left: 65%;
+	margin-top: 1%;
+}
+
+.join_info p {
+	color: teal;
+	margin-top: 12%;
+	font-size: 16px;
 }

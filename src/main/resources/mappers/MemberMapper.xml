@@ -10,4 +10,22 @@
 <select id="showmember" resultType="hashMap">
 		select * from member
 </select>
+<select id="idcheck" parameterType="string" resultType="Membervo">
+	select * from member where id=#{id}
+</select>
+<select id="emailcheck" parameterType="string" resultType="Membervo">
+	select * from member where email=#{email}
+</select>
+<insert id="join">
+	insert into member(id,password,email,privatekey) values(#{id},#{password},#{email},#{privatekey})
+</insert>
+<select id="memberselect" parameterType="string" resultType="Membervo">
+	select id,privatekey,email,auth from member where id=#{id}
+</select>
+<select id="login" resultType="Membervo">
+	select * from member where id=#{id} and password=#{password}
+</select>
+<update id="authupdate" parameterType="string">
+	update member set privatekey=null,auth="Y" where id=#{id}
+</update>
 </mapper>
