@@ -2,8 +2,8 @@
 <head>
 <meta charset="utf-8">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="/js/login.js?ver=8"></script>
-<link href="/css/login.css?ver=2" rel="stylesheet">
+<script src="/js/login.js?ver=1"></script>
+<link href="/css/login.css?ver=4" rel="stylesheet">
 <!-- rsa 라이브러리 -->
 <script src="/js/rsa/jsbn.js"></script>
 <script src="/js/rsa/rsa.js"></script>
@@ -19,11 +19,14 @@
 
 <form class="login_form">
 <p>ID</p>
-<input type="text" class="login_id" placeholder="Your ID">
+<input type="text" class="login_id" placeholder="Your ID" maxlength="12">
 <p>Password</p>
-<input type="password" class="login_pw" placeholder="●●●●●●">
+<input type="password" class="login_pw" placeholder="●●●●●●" maxlength="12">
 </form>
-<button class="login_btn">로그인</button>
+<button class="login_btn">로그인</button><br/>
+<a href="/memberfindpage?tag=id">아이디나 비밀번호를 잊으셨나요?</a><br/><br/>
+<a href="/memberfindpage?tag=email">인증메일을 변경하거나 재전송해드릴까요?</a>
 </div>
+
 </body>
 </html>

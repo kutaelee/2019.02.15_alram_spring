@@ -31,6 +31,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 @Transactional
 @Service
@@ -53,12 +54,19 @@ public class MemberService {
 	//로그인
 	public Membervo memberLogin(Membervo mv) {
 		String userpw=mv.getPassword();
-		mv=md.memberLogin(mv.getId());
-		if(passwordEncoder.matches(userpw,mv.getPassword())){
-			return mv;
+		String id=mv.getId();
+		
+		if(!ObjectUtils.isEmpty(md.memberLogin(id))){
+			mv=md.memberLogin(id);
+			if(passwordEncoder.matches(userpw,mv.getPassword())){
+				return mv;
+			}else {
+				return null;
+			}
 		}else {
 			return null;
 		}
+	
 		
 	}
 	//아이디 중복체크
@@ -87,7 +95,7 @@ public class MemberService {
 		mv.setPrivatekey(hash());
 		md.memberInsert(mv);
 		mv=md.memberSelect(id);
-		emailSend(mv);
+		authMailSend(mv);
 	}
 	
 	//메일 인증 토큰값확인
@@ -107,13 +115,16 @@ public class MemberService {
 		return false;
 	}
 	// 인증메일 전송
-	public void emailSend(Membervo mv) throws AddressException, MessagingException {
+	public void authMailSend(Membervo mv) throws AddressException, MessagingException {
 		String id =mv.getId();
 		String token=mv.getPrivatekey();
 		String email=mv.getEmail();
 		String subject="가입인증메일";
 		String body="서버알림 서비스에서 가입인증메일을 보내드립니다. 본인이 가입신청 하신게 맞다면 http://localhost:58080/auth?token="+token+"&id="+id+" 주소를 클릭해주세요!";		
-
+		transMail(body,email,subject);
+	}
+	//메일전송 함수
+	public void transMail(String body,String email,String subject) throws AddressException, MessagingException {
 		Properties props = System.getProperties();
 
 		props.put("mail.smtp.host", mail.getHost()); 
@@ -136,9 +147,7 @@ public class MemberService {
 		mimeMessage.setSubject(subject); //제목셋팅 
 		mimeMessage.setText(body); //내용셋팅 
 		Transport.send(mimeMessage); //javax.mail.Transport.send() 이용
-
 	}
-
 
 	//인증메일 토큰값 랜덤하게 인코딩
 	public String hash() {
@@ -219,5 +228,40 @@ public class MemberService {
 
 		return bytes;
 	}
+	public String findId(String email) {
+		return md.findId(email);
+	}
+	public boolean findPw(Membervo mv) throws AddressException, MessagingException {
+		String email=mv.getEmail();
+		String id=md.findPw(mv);
+		if(!StringUtils.isEmpty(id)) {
+			if(md.memberSelect(id).getAuth().equals("Y")) {
+				String token=hash();
+				md.privateKeyChange(token);
+				
+				String subject="비밀번호 변경 메일";
+				String body="비밀번호 변경 메일입니다. 본인이 요청한게 맞다면 http://localhost:58080/changepassword?token="+token+"&id="+id+" 주소를 클릭해주세요!";		
+				
+				transMail(body,email,subject);
+				return true;			
+			}else {
+				return false;
+			}			
+		}else {
+			return false;
+		}
+	}
+	//메일 아이디와 토큰값 확인
+	public String memberCheck(Membervo mv) {
+		return md.memberCheck(mv);
+		
+	}
+	//비밀번호 변경
+	public void memberPwUpdate(String id,String pw) {
+		mv.setId(id);
+		mv.setPassword(passwordEncoder.encode(pw));
+		md.memberPwUpdate(mv);
+	}
+	
 
 }

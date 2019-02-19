@@ -1,6 +1,6 @@
 	$.ajax({
 		url:'sessioncheck',
-		type:'get',
+		type:'post',
 		success:function(result){
 			if(result){
 				alert("새로운 가입은 로그아웃 후 진행 해 주세요!");

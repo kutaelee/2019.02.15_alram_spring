@@ -10,7 +10,7 @@
 }
 
 .login_form {
-	margin-top: 5%;
+	margin-top: 4%;
 	margin-left: 46%;
 }
 
@@ -45,6 +45,7 @@
 	font-weight: 600;
 	font-family: 'Nanum Gothic', sans-serif;
 	letter-spacing: 1px;
+	margin-bottom:1%;
 }
 
 .login_btn:hover {
@@ -55,4 +56,10 @@
 
 .login_title {
 	font-size: 45px;
+}
+.login_body a{
+	margin-left: 46%;
+    color: grey;
+    font-family: 'Nanum Gothic', sans-serif;
+    text-underline-position: under;
 }

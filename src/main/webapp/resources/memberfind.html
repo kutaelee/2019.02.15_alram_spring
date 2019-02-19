@@ -1,0 +1,53 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/js/memberfind.js?ver=7"></script>
+<link href="/css/memberfind.css?ver=6" rel="stylesheet">
+<!-- rsa 라이브러리 -->
+<script src="/js/rsa/jsbn.js"></script>
+<script src="/js/rsa/rsa.js"></script>
+<script src="/js/rsa/prng4.js"></script>
+<script src="/js/rsa/rng.js"></script>
+</head>
+<body class="memberfind">
+	<div class="header"></div>
+	<div class="memberfind_body">
+		<div class="menu_tap">
+			<div class="active_menu" id="menu1">ID/PW 찾기</div>
+			<div class="menu" id="menu2">Email 변경/재전송</div>
+		</div>
+		<div class="cover"></div>
+		<div class="left">
+			<h1>아이디 찾기</h1>
+			<form class="id_find_form">
+
+				<p>E-mail</p>
+				<input class="find_id_email" type="email" placeholder="가입할때 등록하신 이메일주소" maxlength="40"> 
+				<input type="text" style="display: none">
+			</form>
+			<button class="find_id_btn">아이디 찾기</button>
+			<h1>비밀번호 변경</h1>
+			<form class="pw_find_form">
+
+				<p>ID</p>
+				<input type="text" class="find_pw_id" placeholder="비밀번호를 변경할 아이디" maxlength="12">
+				<p>E-Mail</p>
+				<input type="email" class="find_pw_email" placeholder="비밀번호를 변경할 아이디의 이메일" maxlength="40">
+			</form>
+			<button class="find_pw_btn">비밀번호 변경</button>
+		</div>
+		<div class="right">
+			<h1>인증메일 변경/재전송</h1>
+		<form class="email_form">
+			<p>ID</p>
+			<input type="text" placeholder="아이디" maxlength="12">
+			<p>Password</p>
+			<input type="email" placeholder="비밀번호 " maxlength="12">
+		</form>
+		<button class="send_mail_btn">재전송</button>
+		<button class="change_mail_btn">이메일 변경</button>
+		</div>
+	</div>
+</body>
+</html>

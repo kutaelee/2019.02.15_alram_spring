@@ -1,6 +1,6 @@
 	$.ajax({
 		url:'sessioncheck',
-		type:'get',
+		type:'post',
 		success:function(result){
 			if(result){
 				alert("이미 로그인 하셨습니다.");
@@ -27,6 +27,16 @@ $(document).ready(function(){
 		success : function(result) {
 			RSAModulus = result.RSAModulus;
 			RSAExponent = result.RSAExponent;
+		}
+	});
+	
+	//유효성 검사
+	$('.login_form input').keyup(function(){
+		var value=$(this).val();
+		value=value.replace(/ /gi, "");
+		if(re.test(value)){
+			$(this).val(value.replace(re,"")); 
+			alert("특수문자는 사용하지말아주세요!");
 		}
 	});
 	

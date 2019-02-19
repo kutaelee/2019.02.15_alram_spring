@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,43 +27,57 @@ public class MemberController {
 	Membervo mv;
 	@Autowired
 	MemberService ms;
-	
-	//로그인 세션체크
-	@GetMapping(value="sessioncheck")
-	public @ResponseBody boolean sessioncheck(HttpSession session) {
-		if(null!=session.getAttribute("userid")) {
+
+	// 로그인 세션체크
+	@PostMapping(value = "sessioncheck")
+	public @ResponseBody boolean sessionCheck(HttpSession session) {
+		String check=(String) session.getAttribute("userid");
+		if (!StringUtils.isEmpty(check)) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	//로그아웃
-	@GetMapping(value="logout")
+
+	// 로그아웃
+	@PostMapping(value = "logout")
 	public @ResponseBody boolean logout(HttpSession session) {
 		session.invalidate();
 		return true;
 	}
-	//메일 전송완료페이지
-	@GetMapping(value="sendmail")
-	public String sendmail(HttpServletRequest req,HttpSession session) {
-		if(null!=session.getAttribute("sendmail")) {
+
+	// 메일 전송완료페이지
+	@GetMapping(value = "sendmail")
+	public String sendMail(HttpServletRequest req, HttpSession session) {
+		if (!ObjectUtils.isEmpty(session.getAttribute("sendmail"))) {
 			session.removeAttribute("sendmail");
 			return "sendmail";
-		}else {
+		} else {
 			return "home";
 		}
+
+	}
+
+	// 이메일 인증
+	@GetMapping(value = "auth")
+	public String auth(HttpServletRequest req, HttpSession session) {
+		String id=req.getParameter("id");
+		String token=req.getParameter("token");
+		if(StringUtils.isEmpty(id)||StringUtils.isEmpty(token)) {
+			return "fail";
+		}else {
+			if (ms.authUpdate(id,token)) {
+				session.setAttribute("userid", req.getParameter("id"));
+				return "success";
+			}else {
+				return "fail";
+			}
+		}
+
 		
 	}
-	//이메일 인증
-	@GetMapping(value="auth")
-	public String auth(HttpServletRequest req,HttpSession session) {
-		if(ms.authUpdate(req.getParameter("id"),req.getParameter("token"))) {
-			session.setAttribute("userid", req.getParameter("id"));
-			return "success";
-		}
-		return "fail";
-	}
-	//멤버확인
+
+	// 멤버확인
 	@PostMapping(value = "member")
 	public @ResponseBody List<HashMap<String, Object>> showmember() {
 		mv.setId("admin");
@@ -71,98 +86,189 @@ public class MemberController {
 
 	// 암호화키 생성
 	@PostMapping(value = "rsacall")
-	public @ResponseBody Map<String, String> joinpage(HttpServletRequest req, HttpSession session) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		return ms.Rsacall(req,session);
+	public @ResponseBody Map<String, String> joinPage(HttpServletRequest req, HttpSession session)
+			throws NoSuchAlgorithmException, InvalidKeySpecException {
+		return ms.Rsacall(req, session);
 	}
-	//로그인
-	@PostMapping(value="memberlogin",produces = "application/json; charset=utf8")
-	public @ResponseBody String memberlogin(HttpServletRequest req,HttpSession session) {
+
+	// ID찾기
+	@PostMapping(value = "findid", produces = "application/text; charset=utf8")
+	public @ResponseBody String findId(HttpServletRequest req, HttpSession session) {
+		String email = req.getParameter("email");
+		PrivateKey privateKey = (PrivateKey) session.getAttribute("privateKey");
+		email = ms.decryptRsa(privateKey, email);
+		String id = ms.findId(email);
+		if (!StringUtils.isEmpty(id)) {
+			return id;
+		} else {
+			return "일치하는 정보가 없습니다";
+		}
+
+	}
+
+	@PostMapping(value = "findpw", produces = "application/text; charset=utf8")
+	public @ResponseBody String findPw(HttpServletRequest req, HttpSession session)
+			throws AddressException, MessagingException {
+		String id = req.getParameter("id");
+		String email = req.getParameter("email");
+		PrivateKey privateKey = (PrivateKey) session.getAttribute("privateKey");
+		id = ms.decryptRsa(privateKey, id);
+		email = ms.decryptRsa(privateKey, email);
+		mv.setId(id);
+		mv.setEmail(email);
+
+		if (ms.findPw(mv)) {
+			return "이메일로 비밀번호를 변경할 주소를 보내드렸습니다!";
+		} else {
+			return "일치하는 정보가 없거나 메일인증을 하지 않은 아이디입니다.";
+		}
+	}
+
+	// 로그인
+	@PostMapping(value = "memberlogin", produces = "application/json; charset=utf8")
+	public @ResponseBody String memberLogin(HttpServletRequest req, HttpSession session) {
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
 
 		PrivateKey privateKey = (PrivateKey) session.getAttribute("privateKey");
-		id=ms.decryptRsa(privateKey, id);
-		pw=ms.decryptRsa(privateKey, pw);
-		
+		id = ms.decryptRsa(privateKey, id);
+		pw = ms.decryptRsa(privateKey, pw);
+
 		mv.setId(id);
 		mv.setPassword(pw);
 
-		if(!ObjectUtils.isEmpty(ms.memberLogin(mv))) {
-			mv=ms.memberLogin(mv);
-			if(mv.getAuth().equals("Y")) {
+		if (null != ms.memberLogin(mv)) {
+			mv = ms.memberLogin(mv);
+			if (mv.getAuth().equals("Y")) {
 				session.setAttribute("userid", mv.getId());
 
 				return "{\"msg\": \"로그인 성공!\"}";
-			}else {
+			} else {
 				return "{\"msg\": \"이메일 인증 후 로그인 가능합니다!\"}";
 			}
-		}else {
+		} else {
 			return "{\"msg\": \"일치하는 정보가 없습니다!\"}";
 		}
-		
-		
+
 	}
-	//가입
+
+	// 가입
 	@PostMapping(value = "memberjoin")
-	public @ResponseBody boolean memberjoin(HttpServletRequest req) throws NoSuchAlgorithmException, InvalidKeySpecException, AddressException, MessagingException {
+	public @ResponseBody boolean memberJoin(HttpServletRequest req)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, AddressException, MessagingException {
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
 		String email = req.getParameter("email");
-		
+
 		HttpSession session = req.getSession();
 		PrivateKey privateKey = (PrivateKey) session.getAttribute("privateKey");
-		id=ms.decryptRsa(privateKey, id);
-		pw=ms.decryptRsa(privateKey, pw);
-		email=ms.decryptRsa(privateKey, email);
-		
-		//공백제거
+		id = ms.decryptRsa(privateKey, id);
+		pw = ms.decryptRsa(privateKey, pw);
+		email = ms.decryptRsa(privateKey, email);
+
+		// 공백제거
 		id.replace("\\s", "");
 		pw.replace("\\s", "");
 		email.replace("\\s", "");
-		
-		//아이디 비밀번호 규격검사
-		if(id.length()>3 && id.length()<13 && pw.length()>3 && pw.length()<13) {
-			//아이디 비밀번호 특수문자 검사
-			if(Pattern.matches("^[a-zA-Z0-9]*$", id) && Pattern.matches("^[a-zA-Z0-9]*$", pw)) {
-				//아이디,이메일 중복검사
-				if(ms.idCheck(id)&&ms.emailCheck(email)) {
+
+		// 아이디 비밀번호 규격검사
+		if (id.length() > 3 && id.length() < 13 && pw.length() > 3 && pw.length() < 13) {
+			// 아이디 비밀번호 특수문자 검사
+			if (Pattern.matches("^[a-zA-Z0-9]*$", id) && Pattern.matches("^[a-zA-Z0-9]*$", pw)) {
+				// 아이디,이메일 중복검사
+				if (ms.idCheck(id) && ms.emailCheck(email)) {
 					mv.setId(id);
 					mv.setEmail(email);
 					mv.setPassword(pw);
-				
+
 					ms.memberInsert(mv);
-					
+
 					session.setAttribute("sendmail", true);
 					return true;
 				}
 			}
-		
+
 		}
 		return false;
 	}
-	//아이디 중복검사
-	@PostMapping(value="idcheck")
-	public @ResponseBody boolean idcheck(HttpServletRequest req) {
-		return 	ms.idCheck(req.getParameter("id"));
+
+	// 아이디 중복검사
+	@PostMapping(value = "idcheck")
+	public @ResponseBody boolean idCheck(HttpServletRequest req) {
+		return ms.idCheck(req.getParameter("id"));
 	}
-	//이메일 중복검사
-	@PostMapping(value="emailcheck")
-	public @ResponseBody boolean emailcheck(HttpServletRequest req) {
-		return 	ms.emailCheck(req.getParameter("email"));
+
+	// 이메일 중복검사
+	@PostMapping(value = "emailcheck")
+	public @ResponseBody boolean emailCheck(HttpServletRequest req) {
+		return ms.emailCheck(req.getParameter("email"));
 	}
-	//회원가입페이지
+
+	// 회원가입페이지
 	@GetMapping(value = "joinpage")
-	public String joinpage() {
+	public String joinPage() {
 		return "join";
 	}
-	//로그인페이지
+
+	// 로그인페이지
 	@GetMapping(value = "loginpage")
-	public String loginpage(HttpSession session) {
-		if(null!=session.getAttribute("userid")) {
-			return "login";
+	public String loginPage() {
+		return "login";
+	}
+
+	// 개인정보찾기 폼
+	@GetMapping(value = "memberfindpage")
+	public String memberFindPage(HttpSession session) {
+		System.out.println(session.getAttribute("userid"));
+		if(ObjectUtils.isEmpty(session.getAttribute("userid"))){
+			return "memberfind";
 		}else {
 			return "home";
 		}
 		
+	}
+
+	// 비밀번호 변경 폼
+	@GetMapping(value = "changepassword")
+	public String changePassWordForm(HttpServletRequest req, HttpSession session) {
+		String id = req.getParameter("id");
+		String token = req.getParameter("token");
+		if (StringUtils.isEmpty(id) || StringUtils.isEmpty(token)) {
+			return "home";
+		} else {
+			mv.setId(id);
+			mv.setPrivatekey(token);
+			id = ms.memberCheck(mv);
+			if (null!=id) {
+				session.setAttribute("changepwtarget", id);
+				return "changepw";
+			}else {	
+				return "home";
+			}
+			
+		}
+		
+	}
+
+	// 비밀번호 변경
+	@PostMapping(value = "memberpwupdate")
+	public @ResponseBody boolean memberPwUpdate(HttpServletRequest req) {
+		String pw = req.getParameter("pw");
+
+		HttpSession session = req.getSession();
+		PrivateKey privateKey = (PrivateKey) session.getAttribute("privateKey");
+		pw = ms.decryptRsa(privateKey, pw);
+		pw.replace("\\s", "");
+		if (pw.length() > 3 && pw.length() < 13 && Pattern.matches("^[a-zA-Z0-9]*$", pw)) {
+			String id = (String) session.getAttribute("changepwtarget");
+			if(StringUtils.isEmpty(id)){
+				return false;
+			}
+			ms.memberPwUpdate(id, pw);
+			session.removeAttribute("changepwtarget");
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

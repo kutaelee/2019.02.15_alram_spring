@@ -34,4 +34,19 @@ public class Memberdao {
 	public void authUpdate(String id) {
 		sqlssion.update("member.authupdate",id);
 	}
+	public String findId(String email) {
+		return sqlssion.selectOne("member.findid",email);
+	}
+	public String findPw(Membervo mv) {
+		return sqlssion.selectOne("member.findpw",mv);
+	}
+	public void privateKeyChange(String token) {
+		sqlssion.update("member.privatekeychange",token);
+	}
+	public String memberCheck(Membervo mv) {
+		return sqlssion.selectOne("member.membercheck",mv);
+	}
+	public void memberPwUpdate(Membervo mv) {
+		sqlssion.update("member.pwupdate",mv);
+	}
 }

@@ -28,4 +28,19 @@
 <update id="authupdate" parameterType="string">
 	update member set privatekey=null,auth="Y" where id=#{id}
 </update>
+<select id="findid" parameterType="string" resultType="string">
+	select id from member where email=#{email}
+</select>
+<select id="findpw" parameterType="Membervo" resultType="string">
+	select id from member where id=#{id} and email=#{email}
+</select>
+<update id="privatekeychange" parameterType="string">
+	update member set privatekey=#{token}
+</update>
+<select id="membercheck" resultType="string">
+	select id from member where id=#{id} and privatekey=#{privatekey}
+</select>
+<update id="pwupdate">
+	update member set password=#{password},privatekey=null where id=#{id} 
+</update>
 </mapper>
