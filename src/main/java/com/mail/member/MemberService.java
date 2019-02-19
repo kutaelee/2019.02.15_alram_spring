@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,13 +41,10 @@ public class MemberService {
 	Memberdao md;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	Mailvo mail;
 	
-	//mail 변수
-	final String host ="smtp.gmail.com";
-	final String admin="kutaelee0";
-	final String password="password";
-	int port=465;
-	final String token="mail_token";
+	
 	
 	//멤버 출력
 	public List<HashMap<String, Object>> showmember() {
@@ -82,13 +80,14 @@ public class MemberService {
 		}
 	}
 	//회원등록
-	public Membervo memberInsert(Membervo mv) {
+	public void memberInsert(Membervo mv) throws AddressException, MessagingException {
 		String id = mv.getId();
 		// 비밀번호 암호화
 		mv.setPassword(passwordEncoder.encode(mv.getPassword()));
 		mv.setPrivatekey(hash());
 		md.memberInsert(mv);
-		return md.memberSelect(id);
+		mv=md.memberSelect(id);
+		emailSend(mv);
 	}
 	
 	//메일 인증 토큰값확인
@@ -117,17 +116,17 @@ public class MemberService {
 
 		Properties props = System.getProperties();
 
-		props.put("mail.smtp.host", host); 
-		props.put("mail.smtp.port", port); 
+		props.put("mail.smtp.host", mail.getHost()); 
+		props.put("mail.smtp.port", mail.getPort()); 
 		props.put("mail.smtp.auth", "true"); 
 		props.put("mail.smtp.ssl.enable", "true");
-		props.put("mail.smtp.ssl.trust", host);
+		props.put("mail.smtp.ssl.trust", mail.getHost());
 
 		//Session 생성 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() 
 		{ 
 			protected javax.mail.PasswordAuthentication getPasswordAuthentication() { 
-				return new javax.mail.PasswordAuthentication(admin, password); 
+				return new javax.mail.PasswordAuthentication(mail.getAdmin(), mail.getPassword()); 
 			} 
 		}); session.setDebug(true); //for debug
 
@@ -145,7 +144,7 @@ public class MemberService {
 	public String hash() {
 		Random random = new Random();
 		random.setSeed(System.currentTimeMillis());
-		String hashtoken = random.nextInt(1000000) + token;
+		String hashtoken = random.nextInt(1000000) + mail.getToken();
 
 		return passwordEncoder.encode(hashtoken);
 	}

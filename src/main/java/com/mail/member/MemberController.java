@@ -130,8 +130,8 @@ public class MemberController {
 					mv.setEmail(email);
 					mv.setPassword(pw);
 				
-					mv=ms.memberInsert(mv);
-					ms.emailSend(mv);
+					ms.memberInsert(mv);
+					
 					session.setAttribute("sendmail", true);
 					return true;
 				}
