@@ -262,6 +262,24 @@ public class MemberService {
 		mv.setPassword(passwordEncoder.encode(pw));
 		md.memberPwUpdate(mv);
 	}
+	public void emailUpdate(String id, String email) {
+		mv.setId(id);
+		mv.setEmail(email);
+		md.emailUpdate(mv);	
+	}
+	public boolean emailResend(String id) throws AddressException, MessagingException {
+		mv=md.memberSelect(id);
+		if(mv.getAuth().equals("N")) {
+			mv.setPrivatekey(hash());
+			mv.setId(id);	
+			md.tokenUpdate(mv);
+			authMailSend(mv);
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 	
 
 }

@@ -49,4 +49,10 @@ public class Memberdao {
 	public void memberPwUpdate(Membervo mv) {
 		sqlssion.update("member.pwupdate",mv);
 	}
+	public void emailUpdate(Membervo mv) {
+		sqlssion.update("member.emailupdate",mv);
+	}
+	public void tokenUpdate(Membervo mv) {
+		sqlssion.update("member.tokenupdate",mv);
+	}
 }

@@ -6,7 +6,7 @@
 
 p {
 	font-family: 'NanumSquareRound';
-	color: white;
+	color: grey;
 }
 
 .cover {
@@ -14,34 +14,34 @@ p {
 	width: 20%;
 	height: 60%;
 	margin-left: 55%;
-	background-image: url("/resources/img/bass.jpg");
-	background-size: 120%;
+	background-image: url("/resources/img/chair.jpg");
+	background-size: 100%;
 	object-fit: cover;
 	margin-top: 7%;
 	z-index: 10;
-	border: 1px solid;
+	border: 1px solid black;
 }
 
 .left {
 	position: absolute;
-	border: 1px solid teal;
+	border: 1px solid black;
 	width: 20%;
 	height: 60%;
 	margin-left: 35%;
 	margin-top: 7%;
-	background: cadetblue;
+	background: white;
 	border-right: none;
 }
 
 .right {
-	border: 1px solid teal;
+	border: 1px solid black;
 	width: 20%;
 	height: 60%;
 	position: absolute;
 	margin-left: 55%;
 	margin-top: 7%;
 	border-left: none;
-	background: cadetblue;
+	background: white;
 }
 
 .memberfind_body form {
@@ -51,8 +51,8 @@ p {
 button {
 	margin-left: 15%;
 	width: 65%;
-	border: 1px solid teal;
-	background: teal;
+	border: 1px solid black;
+	background: black;
 	color: snow;
 	padding-top: 2%;
 	padding-bottom: 2%;
@@ -60,13 +60,14 @@ button {
 	border-radius: 5px;
 	box-shadow: 0px 1px 5px black;
 	font-family: 'NanumSquareRound';
-	font-size: 16;
+	font-size: 16px;
 }
 
 button:hover {
-	border: 1px solid darkseagreen;
-	background: darkseagreen;
+	border: 1px solid deeppink;
+	background: deeppink;
 	transition: 0.5s;
+	color: white;
 }
 
 input {
@@ -75,13 +76,13 @@ input {
 	border: 1px solid grey;
 	border-radius: 5px;
 	box-shadow: 1px 1px 5px grey;
-	padding-left: 10;
-	font-size: 15;
+	padding-left: 10px;
+	font-size: 15px;
 	font-family: 'NanumSquareRound';
 }
 
 .memberfind_body h1 {
-	color: white;
+	color: black;
 	margin-left: 10%;
 	margin-top: 7%;
 }
@@ -94,9 +95,9 @@ input {
 
 .menu {
 	padding: 15px;
-	background: cadetblue;
-	border: 1px solid teal;
-	color: snow;
+	background: white;
+	border: 1px solid black;
+	color: black;
 	cursor: pointer;
 	border-radius: 5px;
 	text-align: center;
@@ -105,14 +106,18 @@ input {
 
 .active_menu {
 	padding: 15px;
-	background: teal;
-	border: 1px solid teal;
-	color: snow;
+	background: black;
+	border: 1px solid black;
+	color: white;
 	cursor: pointer;
 	border-radius: 5px;
 	text-align: center;
 	display: inline-block;
 }
-.send_mail_btn{
-	margin-bottom:2%;
+
+.send_mail_btn {
+	margin-bottom: 2%;
+}
+.email_change{
+	display:none;
 }

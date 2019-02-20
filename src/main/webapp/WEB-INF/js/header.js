@@ -33,6 +33,9 @@ $(document).ready(function() {
 			}
 		});
 	});
+	$('.home_icon').click(function(){
+		location.href="/";
+	})
 	$('#menu_toggle').click(function() {
 		var name = $(this).prop('class');
 		if (name == 'menu_toggle') {
@@ -74,7 +77,7 @@ $(document).ready(function() {
 				'transition' : '0.5s'
 			});
 			$('#menu_toggle div').css({
-				'background' : 'cadetblue'
+				'background' : 'black'
 			})
 		}
 

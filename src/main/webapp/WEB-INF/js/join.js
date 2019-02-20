@@ -26,8 +26,7 @@ $(document).ready(function() {
 	var pw2check = false;
 	var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; // 이메일 형식
 	var re = /[~!@\#$%^&*\()\-=+_.']/gi; //특수문자
-	// 유효성
-	// 검사 변수
+
 
 	// 공개키 요청
 	$.ajax({

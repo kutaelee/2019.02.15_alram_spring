@@ -14,7 +14,7 @@
 $(document).ready(function(){
 	$('.header').load('/resources/header.html');
 	
-
+	var re = /[~!@\#$%^&*\()\-=+_.']/gi; //특수문자
 	/* 공개키 변수 */
 	var RSAModulus = null;
 	var RSAExponent = null;

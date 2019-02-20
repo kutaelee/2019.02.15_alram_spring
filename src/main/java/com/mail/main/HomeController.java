@@ -21,38 +21,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class HomeController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@GetMapping(value="/")
+	@GetMapping(value = "/")
 	public String home(Locale locale) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
+
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+
 		String formattedDate = dateFormat.format(date);
-		
+
 		return "home";
 	}
-	@PostMapping(value="addresscheck")
+
+	@PostMapping(value = "addresscheck")
 	public @ResponseBody boolean addrescheck(HttpServletRequest req) {
-		
-		String url=req.getParameter("url");
+
+		String url = req.getParameter("url");
+
 		try {
-		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-		connection.setRequestMethod("HEAD");
-		int responseCode = connection.getResponseCode();
-		if (responseCode != 200) {
-		    return false;
-		}else {
-			return true;
-		}
-		
+			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+			connection.setRequestMethod("HEAD");
+			int responseCode = connection.getResponseCode();
+			if (responseCode != 200) {
+				return false;
+			} else {
+				return true;
+			}
+
 		} catch (IOException e) {
+			System.out.println(e);
 			return false;
 		}
 	}

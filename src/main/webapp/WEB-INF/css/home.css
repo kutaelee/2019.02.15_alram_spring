@@ -21,9 +21,9 @@
 
 .address_search input {
 	width: 40%;
-	height: 50;
-	font-size: 20;
-	margin-right: 10;
+	height: 50px;
+	font-size: 20px;
+	margin-right: 10px;
 	font-family: 'Nanum Gothic', sans-serif;
 	text-align: center;
 	font-weight: bold;
@@ -32,8 +32,8 @@
 }
 
 .address_search button {
-	border: 1px solid cadetblue;
-	background: cadetblue;
+	border: 1px solid black;
+	background: black;
 	padding: 15px;
 	font-size: 17px;
 	border-radius: 5px;
@@ -47,6 +47,8 @@
 }
 
 .address_search button:hover {
-	border: 1px solid #6FB98F;
-	background: #6FB98F;
+	border: 1px solid deeppink;
+	background: deeppink;
+	color:white;
+	transition:0.3s;
 }
