@@ -27,6 +27,7 @@
 	
 	<context:component-scan base-package="com.mail.main" />
 	<context:component-scan base-package="com.mail.member"/>
+	<context:component-scan base-package="com.mail.domain"/>
 	
 	
 </beans:beans>

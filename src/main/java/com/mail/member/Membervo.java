@@ -11,8 +11,14 @@ public class Membervo {
 	private String stat;//회원상태 등록한 모든 도메인이 연속적으로 접속불가할때 N으로 바꿈
 	private String privatekey;//회원 등록할때 인증메일 파라미터 개인키
 	private String auth; //이메일 인증 여부
+	private int grade;
 	
-	
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
 	public String getAuth() {
 		return auth;
 	}

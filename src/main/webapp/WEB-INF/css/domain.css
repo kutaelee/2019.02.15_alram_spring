@@ -1,0 +1,96 @@
+.domain_body {
+	position: absolute;
+	width: 100%;
+	margin-top: 3%;
+}
+
+.domain_title {
+	font-size: 45px;
+}
+
+.domain_info {
+	text-align: center;
+}
+
+.address_search {
+	margin-top: 3%;
+	width: 100%;
+	height: 20%;
+	text-align: center;
+}
+
+.address_search input {
+	width: 40%;
+	height: 50px;
+	font-size: 20px;
+	margin-right: 10px;
+	font-family: 'Nanum Gothic', sans-serif;
+	text-align: center;
+	font-weight: bold;
+	border: 1px solid grey;
+	box-shadow: 1px 1px 3px grey;
+}
+
+.address_search button {
+	border: 1px solid black;
+	background: black;
+	padding: 15px;
+	font-size: 17px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 5px grey;
+	cursor: pointer;
+	color: white;
+	font-weight: bold;
+	letter-spacing: 2px;
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size: 17px;
+}
+
+button:hover {
+	border: 1px solid deeppink;
+	background: deeppink;
+	color: white;
+	transition: 0.3s;
+}
+
+.address_list {
+	margin-top: 3%;
+	width: 100%;
+	height: 20%;
+	text-align: center;
+}
+
+.address_table {
+	width: 40%;
+	margin-left: 28%;
+	border-top: 2px solid;
+	border-collapse: collapse;
+	height: 30%;
+	font-size: 20px;
+	text-align: center;
+	font-family: 'NanumSquareRound';
+}
+
+tr {
+	border-bottom: 2px solid;
+	height:50px;
+}
+
+.domain {
+	width: 50%;
+}
+
+.address_table button {
+	border: 1px solid black;
+	background: black;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 5px grey;
+	cursor: pointer;
+	color: white;
+	font-weight: bold;
+	letter-spacing: 1px;
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size: 17px;
+}
+

@@ -31,8 +31,7 @@ public class MemberController {
 	// 로그인 세션체크
 	@PostMapping(value = "sessioncheck")
 	public @ResponseBody boolean sessionCheck(HttpSession session) {
-		String check = (String) session.getAttribute("userid");
-		if (!StringUtils.isEmpty(check)) {
+		if (!ObjectUtils.isEmpty(session.getAttribute("userseq"))) {
 			return true;
 		} else {
 			return false;
@@ -49,10 +48,10 @@ public class MemberController {
 	// 메일 전송완료페이지
 	@GetMapping(value = "sendmail")
 	public String sendMail(HttpServletRequest req, HttpSession session) {
-		String check = (String) session.getAttribute("sendmail");
-		if (null != check) {
+
+		if (!ObjectUtils.isEmpty(session.getAttribute("sendmail"))) {
 			session.removeAttribute("sendmail");
-			return "sendmail";
+			return "login";
 		} else {
 			return "home";
 		}
@@ -76,7 +75,7 @@ public class MemberController {
 	@PostMapping(value = "authreq", produces = "aplication/text; charset=utf8")
 	public @ResponseBody String authUpdate(HttpServletRequest req, HttpSession session) {
 		String id = (String) session.getAttribute("authid");
-		String token = (String) session.getAttribute("token");
+		String token = (String) session.getAttribute("authtoken");
 
 		if (StringUtils.isEmpty(id) || StringUtils.isEmpty(token)) {
 			return "아이디나 토큰값이 잘못되었습니다.";
@@ -154,7 +153,7 @@ public class MemberController {
 		if (null != ms.memberLogin(mv)) {
 			mv = ms.memberLogin(mv);
 			if (mv.getAuth().equals("Y")) {
-				session.setAttribute("userid", mv.getId());
+				session.setAttribute("userseq", mv.getSeq());
 
 				return "{\"msg\": \"로그인 성공!\"}";
 			} else {
@@ -233,7 +232,7 @@ public class MemberController {
 	// 개인정보찾기 폼
 	@GetMapping(value = "memberfindpage")
 	public String memberFindPage(HttpSession session) {
-		if (ObjectUtils.isEmpty(session.getAttribute("userid"))) {
+		if (ObjectUtils.isEmpty(session.getAttribute("userseq"))) {
 			return "memberfind";
 		} else {
 			return "home";

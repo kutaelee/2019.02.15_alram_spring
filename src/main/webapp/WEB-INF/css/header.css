@@ -22,7 +22,7 @@
 	height: 100%;
 	width: 5%;
 	background: black;
-	z-index:10;
+	z-index: 99;
 }
 
 .nav_body {
@@ -32,6 +32,7 @@
 	width: 30%;
 	position: absolute;
 	margin-left: 101%;
+	z-index:99;
 }
 
 .nav_body ul {
@@ -119,12 +120,101 @@ body {
 }
 
 .line img {
-	cursor:pointer;
-	position:absolute;
+	cursor: pointer;
+	position: absolute;
 	background: white;
 	width: 48px;
 	border: 1px solid;
 	border-radius: 20px;
-	margin-left:20px;
-	margin-top:20px;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+.modal {
+	display:none;
+	background: rgba(0,0,0,.9);
+	position: absolute;
+	z-index: 100;
+	width:100%;
+	height:100%;
+}
+
+.ring {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 8vw;
+	height: 8vw;
+	background: transparent;
+	border: 3px solid #3c3c3c;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 8vw;
+	font-family: 'NanumSquareRound';
+	color: deeppink;
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	text-shadow: 0 0 10px deeppink;
+	box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+	font-size:1vw;
+}
+
+.ring:before {
+	content: '';
+	position: absolute;
+	top: -3px;
+	left: -3px;
+	width: 100%;
+	height: 100%;
+	border: 3px solid transparent;
+	border-top: 3px solid deeppink;
+	border-right: 3px solid deeppink;
+	border-radius: 50%;
+	animation: animateCircle 2s linear infinite;
+}
+
+.ring span {
+	display: block;
+	position: absolute;
+	top: calc(50% - 2px);
+	left: 50%;
+	width: 50%;
+	height: 4px;
+	background: transparent;
+	transform-origin: left;
+	animation: animate 2s linear infinite;
+}
+
+.ring span:before {
+	content: '';
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: deeppink;
+	top: -6px;
+	right: -8px;
+	box-shadow: 0 0 20px deeppink;
+}
+
+@keyframes animateCircle  { 
+	0%
+	{
+		transform:rotate(0deg);
+	}
+	100%
+	{
+		transform:rotate(360deg);
+	}
+}
+@keyframes animate{ 
+	0%
+	{
+		transform:rotate(45deg);
+	}
+	100%
+	{
+		transform:rotate(405deg);
+	}
 }

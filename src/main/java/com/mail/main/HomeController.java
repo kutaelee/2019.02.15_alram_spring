@@ -28,14 +28,30 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@GetMapping(value = "/")
-	public String home(Locale locale) {
+	public String home(Locale locale,HttpServletRequest req) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
-
+		   String ip = req.getHeader("X-FORWARDED-FOR"); 
+	         
+	         //proxy 환경일 경우
+	         if (ip == null || ip.length() == 0) {
+	             ip = req.getHeader("Proxy-Client-IP");
+	         }
+	 
+	         //웹로직 서버일 경우
+	         if (ip == null || ip.length() == 0) {
+	             ip = req.getHeader("WL-Proxy-Client-IP");
+	         }
+	 
+	         if (ip == null || ip.length() == 0) {
+	             ip = req.getRemoteAddr() ;
+	         }
+	         
+		System.out.println(ip);
 		return "home";
 	}
 

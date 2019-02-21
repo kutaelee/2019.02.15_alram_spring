@@ -41,6 +41,7 @@ $(document).ready(function(){
 	});
 	
 	$('.login_btn').click(function() {
+		$('.modal').fadeIn('fast');
 		var id = $('.login_id').val();
 		var pw = $('.login_pw').val();
 		
@@ -59,12 +60,14 @@ $(document).ready(function(){
 				'id':securedid,
 				'pw':securedpw
 			},success:function(result){		
+				$('.modal').fadeOut('fast');
 				alert(result.msg);
 				if(result.msg=="로그인 성공!"){
 					login=true;
 					location.href="/";
 				}
 			},error:function(){
+				$('.modal').fadeOut('fast');
 				alert("로그인 중 문제발생!");
 			}
 		})

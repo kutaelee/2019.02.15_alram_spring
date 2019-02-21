@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="domain">
+  
+  <select id="domainlist" parameterType="int" resultType="hashMap">
+  	select address,stat from domain where master_seq=#{master_seq} 
+  </select>
+  </mapper>

@@ -79,6 +79,7 @@ $(document).ready(function() {
 	
 	//비밀번호 변경 요청
 	$('.changepw_btn').click(function() {
+		$('.modal').fadeIn('fast');
 		if(pwcheck&&pw2check){
 			var pw = $('.password1').val();
 			var rsa = new RSAKey();
@@ -93,17 +94,21 @@ $(document).ready(function() {
 				},
 				success : function(result) {
 					if(result){
+						$('.modal').fadeOut('fast');
 						alert("비밀번호가 변경되었습니다!");
 						location.href="/loginpage";
 					}else{
+						$('.modal').fadeOut('fast');
 						alert("입력값이 잘못되었거나 만료된 페이지 입니다.");
 					}
 				},
 				error : function() {
+					$('.modal').fadeOut('fast');
 					alert("비밀번호 변경중 에러발생!");
 				}
 			});
 		}else{
+			$('.modal').fadeOut('fast');
 			alert("입력값이 잘못되었습니다.");
 		}
 

@@ -11,5 +11,6 @@
 <configuration>
 <typeAliases>
 <typeAlias alias="Membervo" type="com.mail.member.Membervo"/>
+<typeAlias alias="Domainvo" type="com.mail.domain.Domainvo"/>
 </typeAliases>
 </configuration>

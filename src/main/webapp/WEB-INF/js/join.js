@@ -171,6 +171,7 @@ $(document).ready(function() {
 	});
 	// 회원가입 버튼클릭
 	$('.join_btn').click(function() {
+		$('.modal').fadeIn('fast');
 		if (idcheck && pwcheck && pw2check && emailcheck) {
 
 			var id = $('.join_id').val();
@@ -197,7 +198,8 @@ $(document).ready(function() {
 				},
 				success : function(result) {
 					if(result){
-						alert("가입신청완료!");
+						$('.modal').fadeOut('fast');
+						alert("가입 인증메일이 발송되었습니다!");
 						location.href="/sendmail";
 					}else{
 						alert("입력하신 값에 문제가 있습니다.");
@@ -205,10 +207,12 @@ $(document).ready(function() {
 					
 				},
 				error:function(){
+					$('.modal').fadeOut('fast');
 					alert("가입 도중 문제가 발생했습니다!");
 				}
 			});
 		}else{
+			$('.modal').fadeOut('fast');
 			alert("입력한 값중에 잘못된 값이 있습니다");
 		}
 	});
