@@ -7,7 +7,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="domain">
   
-  <select id="domainlist" parameterType="int" resultType="hashMap">
+  <select id="domainList" parameterType="int" resultType="hashMap">
   	select address,stat from domain where master_seq=#{master_seq} 
   </select>
+  <insert id="domainInsert">
+  	insert into domain(master_seq,address) values(#{master_seq},#{address})
+  </insert>
+  <select id="domainCount" parameterType="int" resultType="int">
+  	select count(*) from domain where master_seq=#{master_seq}
+  </select>
+  <select id="domainSelect" parameterType="int" resultType="hashMap">
+  	select address,stat from domain where master_seq=#{master_seq} order by reg_date desc limit 1
+  </select>
+  <select id="domainCheck" parameterType="string" resultType="string">
+  	select master_seq from domain where address like CONCAT('%',#{keyword})
+  </select>
+  <delete id="domainDelete">
+  	delete from domain where address=#{address} and master_seq=#{master_seq}
+  </delete>
   </mapper>

@@ -54,12 +54,24 @@ public class HomeController {
 		System.out.println(ip);
 		return "home";
 	}
-
+	//프로토콜 유효성 검사
+	public String urlHeader(String url) {
+		if(url.substring(0,7).equals("http://")) {
+			return url;
+		}else if(url.substring(0,8).equals("https://")) {
+			return url;
+		}else {
+			return url="http://"+url;
+		}
+	}
 	@PostMapping(value = "addresscheck")
 	public @ResponseBody boolean addrescheck(HttpServletRequest req) {
 
 		String url = req.getParameter("url");
-
+		if(url.length()<9) {
+			return false;
+		}
+		url=urlHeader(url);
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 			connection.setRequestMethod("HEAD");

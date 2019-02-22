@@ -11,48 +11,48 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class Memberdao {
 	@Autowired
-	private SqlSession sqlssion;
+	private SqlSession sqlsession;
 	
 	public List<HashMap<String,Object>> showmember(Membervo mv){
-		return sqlssion.selectList("member.showmember",mv);
+		return sqlsession.selectList("member.showmember",mv);
 	}
 	public Membervo idCheck(String id) {
-		return sqlssion.selectOne("member.idcheck",id);
+		return sqlsession.selectOne("member.idcheck",id);
 	}
 	public Membervo emailCheck(String email) {
-		return sqlssion.selectOne("member.emailcheck",email);
+		return sqlsession.selectOne("member.emailcheck",email);
 	}
 	public void memberInsert(Membervo mv) {
-		sqlssion.insert("member.join",mv);
+		sqlsession.insert("member.join",mv);
 	}
 	public Membervo memberLogin(String id){
-		return sqlssion.selectOne("member.idcheck",id);	
+		return sqlsession.selectOne("member.idcheck",id);	
 	}
 	public Membervo memberSelect(String id) {
-		return sqlssion.selectOne("member.memberselect",id);	
+		return sqlsession.selectOne("member.memberselect",id);	
 	}
 	public void authUpdate(String id) {
-		sqlssion.update("member.authupdate",id);
+		sqlsession.update("member.authupdate",id);
 	}
 	public String findId(String email) {
-		return sqlssion.selectOne("member.findid",email);
+		return sqlsession.selectOne("member.findid",email);
 	}
 	public String findPw(Membervo mv) {
-		return sqlssion.selectOne("member.findpw",mv);
+		return sqlsession.selectOne("member.findpw",mv);
 	}
 	public void privateKeyChange(String token) {
-		sqlssion.update("member.privatekeychange",token);
+		sqlsession.update("member.privatekeychange",token);
 	}
 	public String memberCheck(Membervo mv) {
-		return sqlssion.selectOne("member.membercheck",mv);
+		return sqlsession.selectOne("member.membercheck",mv);
 	}
 	public void memberPwUpdate(Membervo mv) {
-		sqlssion.update("member.pwupdate",mv);
+		sqlsession.update("member.pwupdate",mv);
 	}
 	public void emailUpdate(Membervo mv) {
-		sqlssion.update("member.emailupdate",mv);
+		sqlsession.update("member.emailupdate",mv);
 	}
 	public void tokenUpdate(Membervo mv) {
-		sqlssion.update("member.tokenupdate",mv);
+		sqlsession.update("member.tokenupdate",mv);
 	}
 }
