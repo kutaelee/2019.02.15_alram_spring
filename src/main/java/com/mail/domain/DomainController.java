@@ -1,8 +1,13 @@
 package com.mail.domain;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +27,7 @@ public class DomainController {
 	Domaindao dd;
 	
 	@GetMapping(value="domainupdateform")
-	public String domainUpdateForm(HttpServletRequest req) {
+	public String domainUpdateForm(HttpServletRequest req) throws AddressException, MessagingException {
 		return "domain";
 	}
 	@PostMapping(value="domainlist")
@@ -101,6 +106,31 @@ public class DomainController {
 			return false;
 		}
 
+		
+	}
+	
+	//서버 접속 가능한지 확인 후 갱신
+	@PostMapping(value="domainreload")
+	public @ResponseBody boolean domainReload(HttpServletRequest req) {
+		String url=req.getParameter("url");
+		if(url.length()<9) {
+			return false;
+		}
+		url=urlHeader(url);
+		try {
+			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+			connection.setRequestMethod("HEAD");
+			int responseCode = connection.getResponseCode();
+			if (responseCode != 200) {
+				return false;
+			} else {
+				ds.statSuccessUpdate(url);
+				return true;
+			}
+
+		} catch (IOException e) {
+			return false;
+		}
 		
 	}
 }

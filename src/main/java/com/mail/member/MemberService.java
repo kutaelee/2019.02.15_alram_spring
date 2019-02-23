@@ -33,6 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import com.mail.mail.MailService;
+import com.mail.mail.Mailvo;
+
 @Transactional
 @Service
 public class MemberService {
@@ -44,7 +47,8 @@ public class MemberService {
 	BCryptPasswordEncoder passwordEncoder;
 	@Autowired
 	Mailvo mail;
-	
+	@Autowired
+	MailService mailservice;
 	
 	
 	//멤버 출력
@@ -121,33 +125,9 @@ public class MemberService {
 		String email=mv.getEmail();
 		String subject="가입인증메일";
 		String body="서버알림 서비스에서 가입인증메일을 보내드립니다. 본인이 가입신청 하신게 맞다면 http://localhost:58080/auth?token="+token+"&id="+id+" 주소를 클릭해주세요!";		
-		transMail(body,email,subject);
+		mailservice.transMail(body,email,subject);
 	}
-	//메일전송 함수
-	public void transMail(String body,String email,String subject) throws AddressException, MessagingException {
-		Properties props = System.getProperties();
 
-		props.put("mail.smtp.host", mail.getHost()); 
-		props.put("mail.smtp.port", mail.getPort()); 
-		props.put("mail.smtp.auth", "true"); 
-		props.put("mail.smtp.ssl.enable", "true");
-		props.put("mail.smtp.ssl.trust", mail.getHost());
-
-		//Session 생성 
-		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() 
-		{ 
-			protected javax.mail.PasswordAuthentication getPasswordAuthentication() { 
-				return new javax.mail.PasswordAuthentication(mail.getAdmin(), mail.getPassword()); 
-			} 
-		}); session.setDebug(true); //for debug
-
-		Message mimeMessage = new MimeMessage(session);
-		mimeMessage.setFrom(new InternetAddress("kutaelee0@gmail.com")); 
-		mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-		mimeMessage.setSubject(subject); //제목셋팅 
-		mimeMessage.setText(body); //내용셋팅 
-		Transport.send(mimeMessage); //javax.mail.Transport.send() 이용
-	}
 
 	//인증메일 토큰값 랜덤하게 인코딩
 	public String hash() {
@@ -242,7 +222,7 @@ public class MemberService {
 				String subject="비밀번호 변경 메일";
 				String body="비밀번호 변경 메일입니다. 본인이 요청한게 맞다면 http://localhost:58080/changepassword?token="+token+"&id="+id+" 주소를 클릭해주세요!";		
 				
-				transMail(body,email,subject);
+				mailservice.transMail(body,email,subject);
 				return true;			
 			}else {
 				return false;

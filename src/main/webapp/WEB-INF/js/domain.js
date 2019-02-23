@@ -28,7 +28,7 @@ function domainlist(list){
 		}else{
 			stat="접속불가";
 			color="crimson";
-			button='<button class="domain_reload_btn">접속확인</button><button class="domain_delete_btn">삭제</button>';
+			button='<button class="domain_reload_btn">갱신</button><button class="domain_delete_btn">삭제</button>';
 		}
 		$('.address_table').append('<tr class="list'+i+'">');
 		$('.list'+i).append('<td class="domain">'+list[i].address+'</td>');
@@ -94,7 +94,7 @@ $(document).ready(function(){
 									domainadd(result,j);
 								}else{
 									$('.check_val').fadeIn();
-									$('.check_val').text("서버를 이미 5개 이상 등록하셨거나 이미 등록된 도메인 입니다!");
+									$('.check_val').text("서버를 5개 이상 등록하셨거나 이미 등록된 도메인 입니다!");
 									$('.check_val').css({'color':'crimson'});
 								}
 							
@@ -147,4 +147,42 @@ $(document).ready(function(){
 	
 		}
 	});
+	
+	//도메인 갱신
+	$(document).on('click','.domain_reload_btn',function(){
+		$('.modal').fadeIn('fast');
+		let list=$(this).parent().parent().prop('class');
+		let data=$(this).parent().siblings('.domain').text();
+		$.ajax({
+			url:'domainreload',
+			type:'post',
+			data:{'url':data},
+			success:function(result){
+				$('.modal').fadeOut('fast');
+				if(result){
+					$('.'+list+' .stat').text("정상");
+					$('.'+list+' .stat').css({
+						'color':'steelblue'
+					});
+					$('.'+list+' td:last-child').children('.domain_reload_btn').remove();
+					alert("갱신이 완료되었습니다!");
+				}else{
+					alert("서버가 정상일때만 갱신이 가능합니다. 확인후 다시 시도해주세요!");
+				}
+		
+			},
+			error:function(){
+				$('.modal').fadeOut('fast');
+				alert("도메인 갱신 중 문제가 발생했습니다!");
+			}
+		});
+		
+	});
+	$('.readme_btn').mouseover(function(){
+		$('.readme_text').stop().fadeIn('slow');
+		$(this).mouseout(function(){
+			$('.readme_text').stop().fadeOut();
+		})
+	})
+
 });

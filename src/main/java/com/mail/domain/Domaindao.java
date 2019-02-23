@@ -34,4 +34,19 @@ public class Domaindao {
 	public void domainDelete(Domainvo dv) {
 		sqlsession.delete("domain.domainDelete",dv);
 	}
+
+	public List<HashMap<String,Object>> serverCheck() {
+		return sqlsession.selectList("domain.serverCheck");
+	}
+
+	public void statFailUpdate(String address) {
+		sqlsession.update("domain.statFailUpdate",address);
+	}
+	public HashMap<String,Object> getFailServer(String address){
+		return sqlsession.selectOne("domain.getFailServer",address);
+	}
+
+	public void statSuccessUpdate(String url) {
+		sqlsession.update("domain.statSuccessUpdate",url);
+	}
 }

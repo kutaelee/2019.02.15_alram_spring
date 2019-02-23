@@ -46,7 +46,7 @@
 	font-size: 17px;
 }
 
-button:hover {
+.address_search button:hover {
 	border: 1px solid deeppink;
 	background: deeppink;
 	color: white;
@@ -73,7 +73,7 @@ button:hover {
 
 tr {
 	border-bottom: 2px solid;
-	height:50px;
+	height: 50px;
 }
 
 .domain {
@@ -94,3 +94,49 @@ tr {
 	font-size: 17px;
 }
 
+.address_table button:hover {
+	border: 1px solid deeppink;
+	background: deeppink;
+	color: white;
+	transition: 0.3s;
+}
+
+.domain_delete_btn {
+	margin-left: 3%;
+}
+
+.readme_text {
+	display:none;
+	position: absolute;
+	margin-left: 73%;
+	margin-top: -13%;
+	box-shadow: 2px 2px 2px grey;
+	background: white;
+	border: 1px solid black;
+	border-radius: 10px;
+	padding: 10;
+	z-index:99;
+}
+
+.readme_btn {
+    position: absolute;
+    border: 1px solid black;
+    background: black;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px grey;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 17px;
+    margin-left: 86%;
+    margin-top:-2%;
+}
+.readme_btn:hover {
+	border: 1px solid deeppink;
+	background: deeppink;
+	color: white;
+	transition: 0.3s;
+}

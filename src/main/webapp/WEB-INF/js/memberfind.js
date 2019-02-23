@@ -168,6 +168,11 @@ $(document).ready(function() {
 		}
 
 	});
+	//이메일 변경 취소
+	$('.back_btn').click(function(){
+		$('.email_change').hide();
+		$('.email_div').fadeIn();
+	})
 	// 이메일 변경
 	$('.email_change_btn').click(function() {
 		var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; // 이메일

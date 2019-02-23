@@ -6,9 +6,8 @@ import org.springframework.stereotype.Component;
 public class Domainvo {
 	private String address; //서버확인용 도메인주소
 	private String stat; //서버 생존 유무
-	private int cnt; //서버 다운 후 재확인시 실패한 횟수
 	private int master_seq; //도메인 주인의 회원번호
-	private String reg_date;
+	private String reg_date;//등록시간
 	
 	public String getReg_date() {
 		return reg_date;
@@ -28,12 +27,8 @@ public class Domainvo {
 	public void setStat(String stat) {
 		this.stat = stat;
 	}
-	public int getCnt() {
-		return cnt;
-	}
-	public void setCnt(int cnt) {
-		this.cnt = cnt;
-	}
+
+	
 	public int getMaster_seq() {
 		return master_seq;
 	}
@@ -43,7 +38,9 @@ public class Domainvo {
 	}
 	@Override
 	public String toString() {
-		return "Domainvo [address=" + address + ", stat=" + stat + ", cnt=" + cnt + ", master_seq=" + master_seq + "]";
+		return "Domainvo [address=" + address + ", stat=" + stat + ", master_seq=" + master_seq + ", reg_date="
+				+ reg_date + "]";
 	}
+
 	
 }

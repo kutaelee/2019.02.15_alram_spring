@@ -49,4 +49,7 @@
 <update id="tokenupdate">
 	update member set privatekey=#{privatekey} where id=#{id}
 </update>
+<select id="MemberCheckSeq" parameterType="int" resultType="hashMap">
+	select seq,id,email from member where seq=#{seq}
+</select>
 </mapper>

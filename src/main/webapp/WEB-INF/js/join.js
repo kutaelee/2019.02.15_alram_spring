@@ -197,8 +197,8 @@ $(document).ready(function() {
 					'email' : securedemail
 				},
 				success : function(result) {
-					if(result){
-						$('.modal').fadeOut('fast');
+					$('.modal').fadeOut('fast');
+					if(result){			
 						alert("가입 인증메일이 발송되었습니다!");
 						location.href="/sendmail";
 					}else{

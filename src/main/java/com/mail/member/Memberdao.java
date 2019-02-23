@@ -55,4 +55,7 @@ public class Memberdao {
 	public void tokenUpdate(Membervo mv) {
 		sqlsession.update("member.tokenupdate",mv);
 	}
+	public HashMap<String,String> MemberCheckSeq (int seq){
+		return sqlsession.selectOne("member.MemberCheckSeq",seq);
+	}
 }

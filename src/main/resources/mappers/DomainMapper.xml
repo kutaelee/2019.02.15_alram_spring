@@ -25,4 +25,16 @@
   <delete id="domainDelete">
   	delete from domain where address=#{address} and master_seq=#{master_seq}
   </delete>
+  <select id="serverCheck" resultType="hashMap">
+  	select address from domain where stat="Y"
+  </select>
+  <update id="statSuccessUpdate" parameterType="string">
+	  update domain set stat="Y" where address=#{address}
+  </update>
+  <update id="statFailUpdate" parameterType="string">
+  	update domain set stat="N" where address=#{address}
+  </update>
+  <select id="getFailServer" resultType="hashMap">
+  	select master_seq from domain where address=#{address}
+  </select>
   </mapper>
