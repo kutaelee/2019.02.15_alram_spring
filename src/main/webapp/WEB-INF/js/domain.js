@@ -178,11 +178,13 @@ $(document).ready(function(){
 		});
 		
 	});
+	
+	//안내사항
 	$('.readme_btn').mouseover(function(){
 		$('.readme_text').stop().fadeIn('slow');
 		$(this).mouseout(function(){
 			$('.readme_text').stop().fadeOut();
 		})
 	})
-
+	
 });

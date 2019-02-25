@@ -27,6 +27,10 @@ $(document).ready(function(){
 		success : function(result) {
 			RSAModulus = result.RSAModulus;
 			RSAExponent = result.RSAExponent;
+		},
+		error : function() {
+			alert("암호화 에러 발생!");
+			location.href = '/';
 		}
 	});
 	

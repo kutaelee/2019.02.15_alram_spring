@@ -49,31 +49,31 @@ public class MemberService {
 	Mailvo mail;
 	@Autowired
 	MailService mailservice;
-	
-	
-	//멤버 출력
+
+	// 멤버 출력
 	public List<HashMap<String, Object>> showmember() {
 		return md.showmember(mv);
 	}
-	//로그인
+
+	// 로그인
 	public Membervo memberLogin(Membervo mv) {
-		String userpw=mv.getPassword();
-		String id=mv.getId();
-		
-		if(!ObjectUtils.isEmpty(md.memberLogin(id))){
-			mv=md.memberLogin(id);
-			if(passwordEncoder.matches(userpw,mv.getPassword())){
+		String userpw = mv.getPassword();
+		String id = mv.getId();
+
+		if (!ObjectUtils.isEmpty(md.memberLogin(id))) {
+			mv = md.memberLogin(id);
+			if (passwordEncoder.matches(userpw, mv.getPassword())) {
 				return mv;
-			}else {
+			} else {
 				return null;
 			}
-		}else {
+		} else {
 			return null;
 		}
-	
-		
+
 	}
-	//아이디 중복체크
+
+	// 아이디 중복체크
 	public boolean idCheck(String id) {
 		// 이미 있는 아이디라면 false
 		if (!ObjectUtils.isEmpty(md.idCheck(id))) {
@@ -82,7 +82,8 @@ public class MemberService {
 			return true;
 		}
 	}
-	//이메일 중복체크
+
+	// 이메일 중복체크
 	public boolean emailCheck(String email) {
 		// 이미 있는 이메일이라면 false
 		if (!ObjectUtils.isEmpty(md.emailCheck(email))) {
@@ -91,45 +92,64 @@ public class MemberService {
 			return true;
 		}
 	}
-	//회원등록
+
+	// 회원등록
 	public void memberInsert(Membervo mv) throws AddressException, MessagingException {
 		String id = mv.getId();
 		// 비밀번호 암호화
 		mv.setPassword(passwordEncoder.encode(mv.getPassword()));
 		mv.setPrivatekey(hash());
 		md.memberInsert(mv);
-		mv=md.memberSelect(id);
+		mv = md.memberSelect(id);
 		authMailSend(mv);
 	}
-	
-	//메일 인증 토큰값확인
-	public boolean authUpdate(String pramsid,String pramstoken) {
-		if(!ObjectUtils.isEmpty(md.memberSelect(pramsid))) {
-			mv=md.memberSelect(pramsid);
-			
-			if(mv.getAuth().equals("N")) {
-				if(mv.getPrivatekey().equals(pramstoken)) {
+
+	// 메일 인증 토큰값확인
+	public boolean authUpdate(String pramsid, String pramstoken) {
+
+		if (!ObjectUtils.isEmpty(md.memberSelect(pramsid))) {
+			mv = md.memberSelect(pramsid);
+
+			// 가입인증 전인지 확인
+			if (mv.getAuth().equals("N")) {
+				// 토큰값이 같으면 가입인증 진행
+				if (mv.getPrivatekey().equals(pramstoken)) {
 					md.authUpdate(pramsid);
 					return true;
-				}else {
+				} else {
 					return false;
 				}
+			} else {
+				// 인증이 이미 되었다면 이메일 인증 진행
+				String token = mv.getPrivatekey();
+				if (!StringUtils.isEmpty(token)) {
+					if (token.equals(pramstoken)) {
+						md.privatekeySetNull(pramsid);
+						return true;
+					} else {
+						return false;
+					}
+				}
+
 			}
 		}
+
 		return false;
+
 	}
+
 	// 인증메일 전송
 	public void authMailSend(Membervo mv) throws AddressException, MessagingException {
-		String id =mv.getId();
-		String token=mv.getPrivatekey();
-		String email=mv.getEmail();
-		String subject="가입인증메일";
-		String body="서버알림 서비스에서 가입인증메일을 보내드립니다. 본인이 가입신청 하신게 맞다면 http://localhost:58080/auth?token="+token+"&id="+id+" 주소를 클릭해주세요!";		
-		mailservice.transMail(body,email,subject);
+		String id = mv.getId();
+		String token = mv.getPrivatekey();
+		String email = mv.getEmail();
+		String subject = "가입인증메일";
+		String body = "서버알림 서비스에서 가입인증메일을 보내드립니다. 본인이 가입신청 하신게 맞다면 http://localhost:58080/auth?token=" + token + "&id="
+				+ id + " 주소를 클릭해주세요!";
+		mailservice.transMail(body, email, subject);
 	}
 
-
-	//인증메일 토큰값 랜덤하게 인코딩
+	// 인증메일 토큰값 랜덤하게 인코딩
 	public String hash() {
 		Random random = new Random();
 		random.setSeed(System.currentTimeMillis());
@@ -208,58 +228,100 @@ public class MemberService {
 
 		return bytes;
 	}
+
 	public String findId(String email) {
 		return md.findId(email);
 	}
+
 	public boolean findPw(Membervo mv) throws AddressException, MessagingException {
-		String email=mv.getEmail();
-		String id=md.findPw(mv);
-		if(!StringUtils.isEmpty(id)) {
-			if(md.memberSelect(id).getAuth().equals("Y")) {
-				String token=hash();
-				md.privateKeyChange(token);
-				
-				String subject="비밀번호 변경 메일";
-				String body="비밀번호 변경 메일입니다. 본인이 요청한게 맞다면 http://localhost:58080/changepassword?token="+token+"&id="+id+" 주소를 클릭해주세요!";		
-				
-				mailservice.transMail(body,email,subject);
-				return true;			
-			}else {
+		String email = mv.getEmail();
+		String id = md.findPw(mv);
+		if (!StringUtils.isEmpty(id)) {
+			if (md.memberSelect(id).getAuth().equals("Y")) {
+				String token = hash();
+				mv.setPrivatekey(token);
+				mv.setId(id);
+				md.privateKeyChange(mv);
+
+				String subject = "비밀번호 변경 메일";
+				String body = "비밀번호 변경 메일입니다. \n 본인이 요청한게 맞다면 http://localhost:58080/changepassword?token=" + token
+						+ "&id=" + id + " 주소를 클릭해주세요!";
+
+				mailservice.transMail(body, email, subject);
+				return true;
+			} else {
 				return false;
-			}			
-		}else {
+			}
+		} else {
 			return false;
 		}
 	}
-	//메일 아이디와 토큰값 확인
+
+	// 메일 아이디와 토큰값 확인
 	public String memberCheck(Membervo mv) {
 		return md.memberCheck(mv);
-		
+
 	}
-	//비밀번호 변경
-	public void memberPwUpdate(String id,String pw) {
+
+	// 비밀번호 변경
+	public void memberPwUpdate(String id, String pw) {
 		mv.setId(id);
 		mv.setPassword(passwordEncoder.encode(pw));
 		md.memberPwUpdate(mv);
 	}
+
+	// 이메일 변경 메일전송
+	public void emailUpdateSend(String id, String email) throws AddressException, MessagingException {
+		String token = hash();
+		mv.setPrivatekey(token);
+		mv.setId(id);
+		md.privateKeyChange(mv);
+
+		String subject = "이메일 변경 인증 메일";
+		String body = "이메일 변경 인증메일입니다.\n 본인이 요청한게 맞다면 http://localhost:58080/emailupdateform?token=" + token + "&id="
+				+ id + "&email=" + email + " 주소를 클릭해주세요!";
+
+		mailservice.transMail(body, email, subject);
+	}
+
+	// 이메일 변경
 	public void emailUpdate(String id, String email) {
 		mv.setId(id);
 		mv.setEmail(email);
-		md.emailUpdate(mv);	
+		md.emailUpdate(mv);
 	}
+
+	// 이메일 재전송
 	public boolean emailResend(String id) throws AddressException, MessagingException {
-		mv=md.memberSelect(id);
-		if(mv.getAuth().equals("N")) {
+		mv = md.memberSelect(id);
+		if (mv.getAuth().equals("N")) {
 			mv.setPrivatekey(hash());
-			mv.setId(id);	
+			mv.setId(id);
 			md.tokenUpdate(mv);
 			authMailSend(mv);
 			return true;
-		}else {
+		} else {
 			return false;
 		}
-		
+
 	}
-	
+
+	// 회원번호로 비밀번호가져와서 같은지 검사
+	public String seqSelect(int seq, String targetpw) {
+		String pw = md.seqSelectPw(seq);
+		if (passwordEncoder.matches(targetpw, pw)) {
+			return md.seqSelectId(seq);
+		} else {
+			return null;
+		}
+	}
+
+	public String seqSelectId(int seq) {
+		return md.seqSelectId(seq);
+	}
+
+	public void memberSecession(int seq) {
+		md.memberSecession(seq);
+	}
 
 }

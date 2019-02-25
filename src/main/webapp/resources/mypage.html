@@ -1,0 +1,56 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/js/mypage.js?ver=0"></script>
+<link href="/css/mypage.css?ver=9" rel="stylesheet">
+<!-- rsa 라이브러리 -->
+<script src="/js/rsa/jsbn.js"></script>
+<script src="/js/rsa/rsa.js"></script>
+<script src="/js/rsa/prng4.js"></script>
+<script src="/js/rsa/rng.js"></script>
+</head>
+<body class="mypage">
+	<div class="header"></div>
+	<div class="mypage_body">
+		<h1 class="mypage_title">MYPAGE</h1>
+		<div class="mypage_menu">
+			<div id="password">
+				<h1>비밀번호 변경</h1>
+			</div>
+			<div id="email">
+				<h1>이메일 변경</h1>
+			</div>
+			<div id="member">
+				<h1>회원 탈퇴</h1>
+			</div>
+		</div>
+		<div class="mypage_content">
+			<div class="content_div">
+				<h1>비밀번호 변경</h1>
+				<div class="content_form">
+					<hr style="height: 2px; background: black">
+					<div class="content1">
+						<label class="div_label">현재 비밀번호</label> <input type="password"
+							maxlength="12" placeholder="●●●●●●" />
+					</div>
+					<hr class="hr1">
+					<div class="content2">
+
+						<label class="div_label">비밀번호</label> <input type="password"
+							maxlength="12" placeholder="●●●●●●" />
+					</div>
+					<hr class="hr2">
+					<div class="content3">
+
+						<label class="div_label">비밀번호 확인</label> <input
+							type="password" maxlength="12" placeholder="●●●●●●" />
+					</div>
+					<hr class="hr3">
+					<button>확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

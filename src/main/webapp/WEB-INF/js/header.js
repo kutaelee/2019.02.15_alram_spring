@@ -5,7 +5,7 @@
 			success : function(result) {
 				if (result) {
 					$('.nav_body ul li:nth-child(3)').html(
-							'<a href="mypage">내 정보</a>');
+							'<a href="mypage">마이 페이지</a>');
 					$('.nav_body ul li:nth-child(4)').html(
 							'<a class="logout_btn">로그아웃</a>');
 				}
@@ -43,7 +43,7 @@ $(document).ready(function() {
 			$('.' + tag + '_body').css({
 				'transform' : 'rotate(-11deg)',
 				'margin-left' : '-10%',
-				'transition' : '0.4s'
+				'transition' : '0.2s'
 			});
 
 			$('.nav_body').css({
@@ -54,31 +54,39 @@ $(document).ready(function() {
 			$('.line').css({
 				'transform' : 'rotate(-11deg)',
 				'margin-left' : '-10%',
-				'transition' : '0.5s'
-			})
+				'transition' : '0.2s'
+			});
 			$('#menu_toggle div').css({
 				'background' : 'white'
-			})
+			});
+			$('.mypage_title').css({
+				'margin-left': '40%',
+				'transition':'0.2s'
+			});
 		} else if (name == 'change') {
 			$(this).attr('class', 'menu_toggle');
 			$('.' + tag + '_body').css({
 				'transform' : 'rotate(0deg)',
 				'margin-left' : '0',
-				'transition' : '0.3s'
+				'transition' : '0.2s'
 			});
 			$('.line').css({
 				'transform' : 'rotate(0deg)',
 				'margin-left' : '0',
 				'transition' : '0.2s'
-			})
+			});
 			$('.nav_body').css({
 				'transform' : 'rotate(0deg)',
 				'margin-left' : '101%',
-				'transition' : '0.5s'
+				'transition' : '0.2s'
 			});
 			$('#menu_toggle div').css({
 				'background' : 'black'
-			})
+			});
+			$('.mypage_title').css({
+				'margin-left': '45%',
+				'transition':'0.2s'
+			});
 		}
 
 	});

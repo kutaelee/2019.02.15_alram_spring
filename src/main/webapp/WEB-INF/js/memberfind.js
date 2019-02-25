@@ -59,7 +59,12 @@ $(document).ready(function() {
 		success : function(result) {
 			RSAModulus = result.RSAModulus;
 			RSAExponent = result.RSAExponent;
+		},
+		error : function() {
+			alert("암호화 에러 발생!");
+			location.href = '/';
 		}
+
 	});
 
 	$('.header').load("/resources/header.html");
@@ -77,6 +82,7 @@ $(document).ready(function() {
 
 	// id찾기
 	$('.find_id_btn').click(function() {
+		$('.modal').fadeIn('fast');
 		var email = $('.find_id_email').val();
 
 		// RSA 암호키 생성
@@ -93,9 +99,11 @@ $(document).ready(function() {
 				'email' : securedemail
 			},
 			success : function(result) {
+				$('.modal').fadeOut('fast');
 				alert(result);
 			},
 			error : function(e) {
+				$('.modal').fadeOut('fast');
 				alert("아이디찾기중 문제발생!");
 			}
 		});
@@ -103,6 +111,7 @@ $(document).ready(function() {
 
 	// pw변경
 	$('.find_pw_btn').click(function() {
+		$('.modal').fadeIn('fast');
 		var id = $('.find_pw_id').val();
 		var email = $('.find_pw_email').val();
 
@@ -122,9 +131,11 @@ $(document).ready(function() {
 				'email' : securedemail
 			},
 			success : function(result) {
+				$('.modal').fadeOut('fast');
 				alert(result);
 			},
 			error : function(e) {
+				$('.modal').fadeOut('fast');
 				alert("비밀번호찾기중 문제발생!");
 			}
 		});
@@ -168,13 +179,14 @@ $(document).ready(function() {
 		}
 
 	});
-	//이메일 변경 취소
-	$('.back_btn').click(function(){
+	// 이메일 변경 취소
+	$('.back_btn').click(function() {
 		$('.email_change').hide();
 		$('.email_div').fadeIn();
 	})
 	// 이메일 변경
 	$('.email_change_btn').click(function() {
+		$('.modal').fadeIn('fast');
 		var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; // 이메일
 		// 형식
 		var email = $('.email_form_email').val();
@@ -183,29 +195,32 @@ $(document).ready(function() {
 		if (exptext.test(email)) {
 			var securedemail = rsa.encrypt(email);
 			$.ajax({
-				url : 'emailUpdate',
+				url : 'emailupdatesend',
 				type : 'post',
 				data : {
 					'email' : securedemail,
 					'id' : targetid
 				},
 				success : function(result) {
+					$('.modal').fadeOut('fast');
 					if (result) {
-						alert("이메일이 정상적으로 변경되었습니다!");
+						alert("변경 신청하신 이메일로 인증메일이 발송되었습니다!");
 						location.reload();
 					} else {
-						alert("이미 있는 이메일이거나 입력값에 문제가 있습니다!");
+						alert("이미 등록된 이메일이거나 입력값에 문제가 있습니다!");
 					}
 				}
 
 			});
 		} else {
+			$('.modal').fadeOut('fast');
 			alert("이메일 형식에 맞지 않습니다.");
 		}
 
 	});
-	//인증메일 재전송
+	// 인증메일 재전송
 	$('.send_mail_btn').click(function() {
+		$('.modal').fadeIn('fast');
 		var id = $('.email_form_id').val();
 		var pw = $('.email_form_pw').val();
 		id = escape(id);
@@ -226,6 +241,7 @@ $(document).ready(function() {
 					'pw' : securedpw
 				},
 				success : function(result) {
+					
 					if (result) {
 						$.ajax({
 							url : 'emailresend',
@@ -235,25 +251,31 @@ $(document).ready(function() {
 							},
 							success : function(result) {
 								if (result) {
+									$('.modal').fadeOut('fast');
 									alert("이메일 재전송 완료!");
 									location.reload();
 								} else {
+									$('.modal').fadeOut('fast');
 									alert("이미 인증이 완료된 아이디 입니다.");
 								}
 							},
 							error : function() {
+								$('.modal').fadeOut('fast');
 								alert("메일 재전송 중 문제발생!");
 							}
 						})
 					} else {
+						$('.modal').fadeOut('fast');
 						alert("일치하는 정보가 없습니다.");
 					}
 				},
 				error : function() {
+					$('.modal').fadeOut('fast');
 					alert("아이디 확인 중 문제발생!");
 				}
 			});
-		}else{
+		} else {
+			$('.modal').fadeOut('fast');
 			alert("일치하는 정보가 없습니다!");
 		}
 	});

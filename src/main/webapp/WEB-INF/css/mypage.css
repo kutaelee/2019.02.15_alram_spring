@@ -1,0 +1,108 @@
+.mypage_menu {
+	position: absolute;
+	margin-top: 7%;
+	text-align: center;
+	width: 100vw;
+	height: 10vh;
+	background: whitesmoke;
+}
+
+.mypage_menu div {
+	width: 10%;
+	height: 80%;
+	display: inline-block;
+	margin-top: 1%;
+	cursor: pointer;
+}
+
+.mypage_menu h1 {
+	color: black;
+	font-size: 1vw;
+	margin-top: 15%;
+	display: inline-block;
+}
+
+.active_menu {
+	background: black;
+}
+
+.active_menu h1 {
+	color: white;
+}
+
+.mypage_title {
+	margin-top: 2%;
+	margin-left: 45%;
+	position: absolute;
+	font-size: 3vw;
+	letter-spacing: 2px;
+	cursor:pointer;
+}
+
+#passwrod {
+	margin-left: 4%;
+}
+
+.mypage_content {
+	position: absolute;
+	width: 80vw;
+	margin-top: 15%;
+	height: 60vh;
+	margin-left: 11vw;
+}
+
+.content_div {
+	width: 100%;
+	text-align: center;
+	display:none;
+}
+
+.content_form {
+	margin-left: 31%;
+	width: 40%;
+	margin-top: 3%;
+}
+
+.div_label {
+	width: 30%;
+	display: inline-block;
+	font-size: .8vw;
+	font-family: 'NanumsquaerRound';
+}
+
+.content_form div {
+	width: 100%;
+	display: inline-block;
+	padding: 4%;
+	text-align: left;
+}
+
+.content_form input {
+	width: 58%;
+	height: 7%;
+	border: 1px solid grey;
+	box-shadow: 1px 1px 2px grey;
+	padding-left: 2%;
+	font-size: 1vw;
+}
+button {
+    width: 30%;
+    border: 1px solid black;
+    background: black;
+    color: snow;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0px 1px 5px black;
+    font-family: 'NanumSquareRound';
+    font-size: 18px;
+    margin-top: 1%;
+}
+
+button:hover {
+	border: 1px solid deeppink;
+	background: deeppink;
+	transition: 0.5s;
+	color: white;
+}

@@ -40,8 +40,8 @@ public class Memberdao {
 	public String findPw(Membervo mv) {
 		return sqlsession.selectOne("member.findpw",mv);
 	}
-	public void privateKeyChange(String token) {
-		sqlsession.update("member.privatekeychange",token);
+	public void privateKeyChange(Membervo mv) {
+		sqlsession.update("member.privatekeychange",mv);
 	}
 	public String memberCheck(Membervo mv) {
 		return sqlsession.selectOne("member.membercheck",mv);
@@ -58,4 +58,17 @@ public class Memberdao {
 	public HashMap<String,String> MemberCheckSeq (int seq){
 		return sqlsession.selectOne("member.MemberCheckSeq",seq);
 	}
+	public String seqSelectPw(int seq) {
+		return sqlsession.selectOne("member.seqSelectPw",seq);
+	}
+	public String seqSelectId(int seq) {
+		return sqlsession.selectOne("member.seqSelectId",seq);
+	}
+	public void memberSecession(int seq) {
+		sqlsession.delete("member.memberSecession",seq);
+	}
+	public void privatekeySetNull(String id) {
+		sqlsession.update("member.privatekeySetNull",id);
+	}
+	
 }

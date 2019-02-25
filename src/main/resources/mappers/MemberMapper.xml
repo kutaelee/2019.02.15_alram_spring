@@ -34,8 +34,8 @@
 <select id="findpw" parameterType="Membervo" resultType="string">
 	select id from member where id=#{id} and email=#{email}
 </select>
-<update id="privatekeychange" parameterType="string">
-	update member set privatekey=#{token}
+<update id="privatekeychange">
+	update member set privatekey=#{privatekey} where id=#{id}
 </update>
 <select id="membercheck" resultType="string">
 	select id from member where id=#{id} and privatekey=#{privatekey}
@@ -52,4 +52,16 @@
 <select id="MemberCheckSeq" parameterType="int" resultType="hashMap">
 	select seq,id,email from member where seq=#{seq}
 </select>
+<select id="seqSelectPw" parameterType="int"  resultType="string">
+	select password from member where seq=#{seq}
+</select>
+<select id="seqSelectId" parameterType="int" resultType="string">
+	select id from member where seq=#{seq}
+</select>
+<delete id="memberSecession" parameterType="int">
+	delete from member where seq=#{seq}
+</delete>
+<update id="privatekeySetNull" parameterType="string">
+	update member set privatekey=null where id=#{id} 
+</update>
 </mapper>
