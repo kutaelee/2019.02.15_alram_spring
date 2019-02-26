@@ -8,10 +8,11 @@ public class Domainvo {
 	private String stat; //서버 생존 유무
 	private int master_seq; //도메인 주인의 회원번호
 	private String reg_date;//등록시간
-	
+
 	public String getReg_date() {
 		return reg_date;
 	}
+
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}

@@ -25,8 +25,8 @@
   <delete id="domainDelete">
   	delete from domain where address=#{address} and master_seq=#{master_seq}
   </delete>
-  <select id="serverCheck" resultType="hashMap">
-  	select address from domain where stat="Y"
+  <select id="serverCheck" parameterType="hashMap" resultType="hashMap">
+  	select address from domain where stat="Y"order by reg_date limit #{index},#{limit}
   </select>
   <update id="statSuccessUpdate" parameterType="string">
 	  update domain set stat="Y" where address=#{address}
@@ -35,6 +35,9 @@
   	update domain set stat="N" where address=#{address}
   </update>
   <select id="getFailServer" resultType="hashMap">
-  	select master_seq from domain where address=#{address}
+  	select master_seq,address from domain where address=#{address}
+  </select>
+  <select id="getServerCheckCount" resultType="int">
+ 	 select count(*) from domain where stat="Y"
   </select>
   </mapper>

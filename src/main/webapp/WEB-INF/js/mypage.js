@@ -32,7 +32,7 @@ function emailform() {
 	$('.content_div h1').text("이메일 변경");
 	$('.content2 label').text("이메일주소");
 	$('.content2 input').attr('type', 'email');
-	$('.content2 input').attr('placeholder', 'email');
+	$('.content2 input').attr('placeholder', 'email@exam.com');
 	$('.content2 input').attr('maxlength', '40');
 	$('input').val("");
 	$('.content2').show();

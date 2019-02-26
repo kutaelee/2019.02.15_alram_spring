@@ -35,8 +35,8 @@ public class Domaindao {
 		sqlsession.delete("domain.domainDelete",dv);
 	}
 
-	public List<HashMap<String,Object>> serverCheck() {
-		return sqlsession.selectList("domain.serverCheck");
+	public List<HashMap<String,Object>> serverCheck(HashMap<String,Integer> map) {
+		return sqlsession.selectList("domain.serverCheck",map);
 	}
 
 	public void statFailUpdate(String address) {
@@ -48,5 +48,8 @@ public class Domaindao {
 
 	public void statSuccessUpdate(String url) {
 		sqlsession.update("domain.statSuccessUpdate",url);
+	}
+	public int getServerCheckCount() {
+		return sqlsession.selectOne("domain.getServerCheckCount");
 	}
 }
