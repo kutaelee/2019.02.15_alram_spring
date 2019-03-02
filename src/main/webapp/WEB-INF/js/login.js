@@ -117,7 +117,7 @@ $(document).ready(function() {
 	
 	
 	// naver
-//	$('.naverlogin').click(function(){
+	$('.naverlogin').click(function(){
 		var naverLogin = new naver.LoginWithNaverId(
 				{
 					clientId: "Es8i1j9wAKGHOocdaIBd",
@@ -169,5 +169,5 @@ $(document).ready(function() {
 		});
 
 
-//	});
+	});
 });

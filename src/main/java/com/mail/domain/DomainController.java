@@ -124,6 +124,7 @@ public class DomainController {
 			connection = (HttpURLConnection) new URL(url).openConnection();
 			connection.setRequestProperty("User-Agent",USER_AGENT);
 			connection.setRequestMethod("HEAD");
+	
 			if (!urlConnection(connection)) {
 				return false;
 			} else {
@@ -138,7 +139,7 @@ public class DomainController {
 		}
 		
 	}
-	static double time=0;
+
 	//커넥션을 세팅하고 넘겨주면 상태코드를 확인하고 서버의 생존유무를 리턴
 		public static boolean urlConnection(HttpURLConnection connection) {
 			try {

@@ -202,7 +202,7 @@ $(document).ready(function() {
 		}else if(index==2){
 			window.open('http://ec2-13-209-68-44.ap-northeast-2.compute.amazonaws.com:8080/');
 		}else if(index==3){
-			window.open('https://issuemoa.kr/');
+			window.open('http://issuemoa.kr/');
 		}else if(index==4){
 			location.href='https://www.serverchecker.shop/loginpage';
 		}else if(index==5){
