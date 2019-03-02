@@ -2,13 +2,17 @@
 <head>
 <meta charset="utf-8">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="/js/login.js?ver=2"></script>
-<link href="/css/login.css?ver=9" rel="stylesheet">
+<script src="/js/login.js?ver=13"></script>
+<link href="/css/login.css?ver=13" rel="stylesheet">
 <!-- rsa 라이브러리 -->
 <script src="/js/rsa/jsbn.js"></script>
 <script src="/js/rsa/rsa.js"></script>
 <script src="/js/rsa/prng4.js"></script>
 <script src="/js/rsa/rng.js"></script>
+<!-- google login -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name = "google-signin-client_id"content = "409169347336-hipselq1sb7g0jhtjajuirsnqbp6dknv.apps.googleusercontent.com">
+<script src="/js/naverlogin.js"></script>
 </head>
 <body class="login">
 
@@ -25,8 +29,13 @@
 </form>
 <button class="login_btn">로그인</button><br/>
 <a href="/memberfindpage?tag=id">아이디나 비밀번호를 잊으셨나요?</a><br/><br/>
-<a href="/memberfindpage?tag=email">인증메일을 변경하거나 재전송해드릴까요?</a>
+<a href="/memberfindpage?tag=email">인증메일을 변경하거나 재전송해드릴까요?</a><br/><br/>
+<h2>소셜 로그인</h2>
+<div class="g-signin2" data-onsuccess="onSignIn" data-width="190"></div>
+
+<div id="naverIdLogin"><img class="naverlogin" src="/resources/img/naverlogin.PNG"/></div>
 </div>
+
 </div>
 </body>
 </html>

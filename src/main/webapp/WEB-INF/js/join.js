@@ -13,8 +13,6 @@
 $(document).ready(function() {
 	$('.header').load('/resources/header.html');
 
-
-	
 	/* 공개키 변수 */
 	var RSAModulus = null;
 	var RSAExponent = null;
@@ -26,7 +24,7 @@ $(document).ready(function() {
 	var pw2check = false;
 	var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; // 이메일 형식
 	var re = /[~!@\#$%^&*\()\-=+_.']/gi; //특수문자
-
+	var hangle=/[\ㄱ-ㅎㅏ-ㅣ|가-힣]/gi;
 
 	// 공개키 요청
 	$.ajax({
@@ -57,12 +55,20 @@ $(document).ready(function() {
 				$(this).val(value.replace(re,"")); 
 				alert("특수문자는 사용하지말아주세요!");
 			}
+			if(hangle.test(value)){
+				$(this).val(value.replace(hangle,''));
+				alert("영문으로 작성해주세요!");
+			}
 		}
 
 	})
-	$('.join_id').keyup(function() {
+	$('.join_id').keyup(function(e) {
 		var id = $(this).val();
+
 		if (id.length > 3 && id.length < 13) {
+			if(e.keyCode==13){
+				$('.join_email').focus();
+			}
 			$.ajax({
 				url : 'idcheck',
 				type : 'post',
@@ -76,6 +82,7 @@ $(document).ready(function() {
 						});
 						$('.id_info').text("사용해도 좋은 아이디 입니다");
 						idcheck = true;
+
 					} else {
 						$('.id_info').css({
 							'color' : 'salmon'
@@ -84,7 +91,7 @@ $(document).ready(function() {
 						idcheck = false;
 					}
 				}
-			});
+			});	
 		} else {
 			$('.id_info').css({
 				'color' : 'salmon'
@@ -93,9 +100,12 @@ $(document).ready(function() {
 			idcheck = false
 		}
 	});
-	$('.join_email').keyup(function() {
+	$('.join_email').keyup(function(e) {
 		var email = $(this).val();
 		if (exptext.test(email)) {
+			if(e.keyCode==13){
+				$('.join_pw').focus();
+			}
 			$.ajax({
 				url : 'emailcheck',
 				type : 'post',
@@ -126,10 +136,13 @@ $(document).ready(function() {
 			emailcheck = false;
 		}
 	});
-	$('.join_pw').keyup(function() {
+	$('.join_pw').keyup(function(e) {
 		var pw = $(this).val();
 		var pw2 = $('.join_pw2').val();
 		if (pw.length > 3 && pw.length < 13) {
+			if(e.keyCode==13){
+				$('.join_pw2').focus();
+			}
 			$('.pw_info').css({
 				'color' : 'cornflowerblue'
 			});
@@ -156,7 +169,7 @@ $(document).ready(function() {
 			pw2check = false;
 		}
 	});
-	$('.join_pw2').keyup(function() {
+	$('.join_pw2').keyup(function(e) {
 		var pw = $('.join_pw').val();
 		var pw2 = $(this).val();
 		if (pw == pw2) {
@@ -165,6 +178,9 @@ $(document).ready(function() {
 			});
 			$('.pw2_info').text("비밀번호가 서로 같습니다");
 			pw2check = true;
+			if(e.keyCode==13){
+				$('.join_btn').trigger('click');
+			}
 		} else {
 			$('.pw2_info').css({
 				'color' : 'salmon'

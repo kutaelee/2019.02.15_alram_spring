@@ -3,38 +3,24 @@ package com.mail.main;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * 변경 테스트
- */
 @Controller
 public class HomeController {
-
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
+	   @RequestMapping("**/favicon.ico")
+	    public String favicon() {
+	        return "forward:/resources/img/fav.ico";
+	    }
 	@GetMapping(value = "/")
-	public String home(Locale locale,HttpServletRequest req) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
+	public String home(HttpServletRequest req) {
+		//추후에 로그인 ip검증 사용예정
 		   String ip = req.getHeader("X-FORWARDED-FOR"); 
 	         
 	         //proxy 환경일 경우
@@ -50,8 +36,6 @@ public class HomeController {
 	         if (ip == null || ip.length() == 0) {
 	             ip = req.getRemoteAddr() ;
 	         }
-	         
-		System.out.println(ip);
 		return "home";
 	}
 	//프로토콜 유효성 검사

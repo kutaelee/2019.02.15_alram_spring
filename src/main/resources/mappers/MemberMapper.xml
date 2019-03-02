@@ -19,6 +19,12 @@
 <insert id="join">
 	insert into member(id,password,email,privatekey) values(#{id},#{password},#{email},#{privatekey})
 </insert>
+<insert id="socialJoin">
+	insert into member(id,email,auth) values(#{id},#{email},"Y")
+</insert>
+<select id="socailCheck" resultType="int">
+	select seq from member where id=#{id} and email=#{email}
+</select>
 <select id="memberselect" parameterType="string" resultType="Membervo">
 	select id,privatekey,email,auth from member where id=#{id}
 </select>

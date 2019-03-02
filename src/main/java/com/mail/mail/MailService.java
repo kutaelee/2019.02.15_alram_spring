@@ -37,7 +37,7 @@ public class MailService {
 		}); //session.setDebug(true); //for debug
 
 		Message mimeMessage = new MimeMessage(session);
-		mimeMessage.setFrom(new InternetAddress("kutaelee0@gmail.com")); 
+		mimeMessage.setFrom(new InternetAddress("servercheckbot@gmail.com")); 
 		mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
 		mimeMessage.setSubject(subject); //제목셋팅 
 		mimeMessage.setText(body); //내용셋팅 

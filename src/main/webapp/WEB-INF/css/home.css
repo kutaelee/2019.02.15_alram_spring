@@ -52,3 +52,25 @@
 	color:white;
 	transition:0.3s;
 }
+#success{
+	cursor:pointer;
+}
+
+@media(max-width:500px){
+		.home_title {
+		font-size: 26px;
+		margin-top: 50%;
+	}
+	.address_search {
+		margin-top: 10%;
+		font-size: 14px;
+		color: dimgrey;
+	}
+	.address_search input {
+		width: 90%;
+	}
+	.address_search button {
+		width: 50%;
+		margin-top: 10px;
+	}
+}

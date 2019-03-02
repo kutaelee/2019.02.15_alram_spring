@@ -64,11 +64,9 @@ public class DomainService {
 		List <ServerCheckThread> threadlist=new ArrayList<ServerCheckThread>();
 		
 		if(listcount/threads<=0) {
-			System.out.println("단일스레드실행");
 			ServerCheckThread runnable=new ServerCheckThread(index,listcount,dd,mailservice,md);
 			runnable.start();
 		}else {
-			System.out.println("멀티스레드실행");
 			//스레드풀 갯수 제한 6개
 			 ExecutorService executorService = Executors.newFixedThreadPool(threads);
 			 

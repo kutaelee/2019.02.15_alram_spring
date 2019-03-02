@@ -11,6 +11,16 @@ $.ajax({
 		}
 	}
 });
+$.ajax({
+	url:'socialusercheck',
+	type:'post',
+	success:function(result){
+		if(result){
+			alert("소셜회원은 정보변경이 불가능합니다!");
+			location.href="/";
+		}
+	}
+});
 
 /* 폼 로드 */
 function passwordform() {
@@ -75,7 +85,6 @@ function passwordCheckAjax(securedpw){
 			data : {
 				'pw' : securedpw
 			},success:function(result){
-				console.log(result);
 				resolve(result);
 			},error:function(err){
 				reject(err);
@@ -90,10 +99,14 @@ $(document).ready(function() {
 	/* 공개키 변수 */
 	let RSAModulus = null;
 	let RSAExponent = null;
+	let rsa = null;
+	
+	/*유효성 검사 변수*/
 	const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; // 이메일
 	const re = /[~!@\#$%^&*\()\-=+_.']/gi; // 특수문자
-	let rsa = null;
+	
 
+	
 	/* 공개키 요청 */
 	$.ajax({
 		url : 'rsacall',
@@ -155,7 +168,7 @@ $(document).ready(function() {
 							alert("비밀번호 변경완료!");
 							location.reload();
 						} else {
-							console.log("여기에러");
+
 							alert("변경할 비밀번호가 잘못되었습니다!");
 						}
 					},

@@ -1,15 +1,20 @@
 
 $(document).ready(function(){
-	$.ajax({
-		url:'/member',
-		type:'post',
-		success:function(result){
-			console.log(result);
-		}
-	});
-	$('.header').load("/resources/header.html");
+	$('.header').load("/resources/header.html?ver=18");
+	//서버 체크
 	$('.checkbtn').click(function(){
 			var data=$('.address').val();
+			if(data.trim()==''){
+				alert("도메인을 입력해주세요!");
+				$('.address').focus();
+			}
+			else{
+				if(data.substring(0,4)!='http'){
+					let protocol='http://';
+					protocol+=data;
+					data=protocol;
+					$('.address').val(data);
+				}
 			$('.modal').fadeIn('fast');
 			$.ajax({
 				url:'addresscheck',
@@ -19,19 +24,42 @@ $(document).ready(function(){
 					if(result){
 						$('.modal').fadeOut('fast');
 						$('.check_val').fadeIn();
+						$('.check_val').attr('id','suc');
 						$('.check_val').text("서버가 정상적입니다! 다운되면 알려드릴까요?");
 						$('.check_val').css({'color':'cornflowerblue'});
 					}else{
 						$('.modal').fadeOut('fast');
 						$('.check_val').fadeIn();
+						$('.check_val').attr('id','fail');
 						$('.check_val').text("URL이 잘못되었거나 서버가 다운되었습니다! (http와 https도 구분합니다)");
 						$('.check_val').css({'color':'crimson'});
 					}
 				}
 			});
+		}
 	})
+	
+	//메뉴안내
+	$(document).on('click','#suc',function(){
+		$('.menu_toggle').trigger('click');
+		$('.nav_body li:nth-child(2) a').css({'color':'deeppink'});
+		$('.nav_body li:nth-child(2) a').css({'color':'deeppink'});
+			setTimeout(function(){
+				$('.nav_body li:nth-child(2) a').removeAttr('style');
+			},1000);
+	
+	});
+	
+	//주소창 클릭시 텍스트 숨김
 	$('.address').bind('click',function(){
 		$('.check_val').hide();
 		$('.check_val').text("");
 	})
+	
+	//엔터키로 서버 조회
+	$('body').keydown(function(e){
+		if(e.keyCode==13){
+			$('.checkbtn').trigger('click');
+		}
+	});
 });

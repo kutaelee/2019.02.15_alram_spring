@@ -106,7 +106,7 @@ tr {
 }
 
 .readme_text {
-	display:none;
+	display: none;
 	position: absolute;
 	margin-left: 73%;
 	margin-top: 1%;
@@ -115,28 +115,101 @@ tr {
 	border: 1px solid black;
 	border-radius: 10px;
 	padding: 10;
-	z-index:99;
+	z-index: 99;
 }
 
 .readme_btn {
-    position: absolute;
-    border: 1px solid black;
-    background: black;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 5px grey;
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
-    letter-spacing: 1px;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-size: 17px;
-    margin-left: 86%;
-    margin-top:-2%;
+	position: absolute;
+	border: 1px solid black;
+	background: black;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 5px grey;
+	cursor: pointer;
+	color: white;
+	font-weight: bold;
+	letter-spacing: 1px;
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size: 17px;
+	margin-left: 86%;
+	margin-top: -2%;
 }
+
 .readme_btn:hover {
 	border: 1px solid deeppink;
 	background: deeppink;
 	color: white;
 	transition: 0.3s;
+}
+
+@media ( max-width :1280px) {
+	.domain_title {
+		font-size: 30px;
+		margin-top: -1%;
+	}
+	.readme_btn {
+		margin-left: 83%;
+	}
+	.readme_text {
+		margin-left: 64%;
+		margin-top: 2%;
+	}
+	.address_list {
+		margin-top: -1%;
+	}
+	h1 {
+		font-size: 25px;
+	}
+	h2 {
+		font-size: 17;
+	}
+	ul {
+		font-size: 13px;
+	}
+	.address_table {
+		font-size: 16px;
+	}
+	tr {
+		height: 43px;
+	}
+}
+
+@media ( max-width :1024px) {
+	.address_table {
+		width: 60%;
+		margin-left: 20%;
+	}
+}
+
+@media ( max-width :500px) {
+	.domain_info {
+		margin-top: 20%;
+	}
+	.address_search input {
+		width: 90%;
+		margin-left: 3%;
+	}
+	.address_search button {
+		width: 50%;
+		margin-top: 2%;
+	}
+	.address_table {
+		margin-left: 0;
+		width:100%;
+		font-size: 11px;
+	}
+	.address_table button {
+		width: 80%;
+		font-size: 14px;
+		margin-top: 5%;
+		margin-bottom: 5%;
+	}
+	.readme_btn {
+		margin-top: 2%;
+		margin-left: 50%;
+	}
+	.readme_text {
+		margin-left: 0;
+		margin-top: 14%;
+	}
 }

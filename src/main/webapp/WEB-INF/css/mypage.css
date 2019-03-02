@@ -36,7 +36,7 @@
 	position: absolute;
 	font-size: 3vw;
 	letter-spacing: 2px;
-	cursor:pointer;
+	cursor: pointer;
 }
 
 #passwrod {
@@ -54,7 +54,7 @@
 .content_div {
 	width: 100%;
 	text-align: center;
-	display:none;
+	display: none;
 }
 
 .content_form {
@@ -85,19 +85,20 @@
 	padding-left: 2%;
 	font-size: 1vw;
 }
+
 button {
-    width: 30%;
-    border: 1px solid black;
-    background: black;
-    color: snow;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    cursor: pointer;
-    border-radius: 5px;
-    box-shadow: 0px 1px 5px black;
-    font-family: 'NanumSquareRound';
-    font-size: 18px;
-    margin-top: 1%;
+	width: 30%;
+	border: 1px solid black;
+	background: black;
+	color: snow;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	cursor: pointer;
+	border-radius: 5px;
+	box-shadow: 0px 1px 5px black;
+	font-family: 'NanumSquareRound';
+	font-size: 18px;
+	margin-top: 1%;
 }
 
 button:hover {
@@ -105,4 +106,54 @@ button:hover {
 	background: deeppink;
 	transition: 0.5s;
 	color: white;
+}
+
+@media ( max-width :1280px) {
+	button {
+		font-size: 15px;
+	}
+}
+
+@media ( max-width :500px) {
+	.mypage_title {
+		font-size: 40px;
+		margin-left: 30%;
+		margin-top: 22%;
+	}
+	h1 {
+		font-size: 25px;
+	}
+	.mypage_content {
+		width: 100%;
+		margin-top: 55%;
+		height: 60%;
+		margin-left: 0;
+	}
+	.mypage_menu {
+		margin-top: 35%;
+	}
+	.mypage_menu div {
+		width: 30%;
+		margin-top: 2%;
+	}
+	.mypage_menu h1 {
+		font-size: 16px;
+		margin-top: 19%;
+	}
+	.content_form {
+		margin-left: 10%;
+		width: 80%;
+	}
+	.content_form input {
+		font-size: 15px;
+	}
+	button {
+		padding-top: 4%;
+		padding-bottom: 4%;
+		font-size: 17px;
+		width: 50%;
+	}
+	.div_label {
+		font-size: 13px;
+	}
 }

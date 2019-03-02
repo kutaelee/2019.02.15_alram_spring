@@ -144,7 +144,7 @@ public class MemberService {
 		String token = mv.getPrivatekey();
 		String email = mv.getEmail();
 		String subject = "가입인증메일";
-		String body = "서버알림 서비스에서 가입인증메일을 보내드립니다. 본인이 가입신청 하신게 맞다면 http://localhost:58080/auth?token=" + token + "&id="
+		String body = "서버알림 서비스에서 가입인증메일을 보내드립니다. 본인이 가입신청 하신게 맞다면 http://www.serverchecker.shop/auth?token=" + token + "&id="
 				+ id + " 주소를 클릭해주세요!";
 		mailservice.transMail(body, email, subject);
 	}
@@ -244,7 +244,7 @@ public class MemberService {
 				md.privateKeyChange(mv);
 
 				String subject = "비밀번호 변경 메일";
-				String body = "비밀번호 변경 메일입니다. \n 본인이 요청한게 맞다면 http://localhost:58080/changepassword?token=" + token
+				String body = "비밀번호 변경 메일입니다. \n 본인이 요청한게 맞다면 http://www.serverchecker.shop/changepassword?token=" + token
 						+ "&id=" + id + " 주소를 클릭해주세요!";
 
 				mailservice.transMail(body, email, subject);
@@ -278,7 +278,7 @@ public class MemberService {
 		md.privateKeyChange(mv);
 
 		String subject = "이메일 변경 인증 메일";
-		String body = "이메일 변경 인증메일입니다.\n 본인이 요청한게 맞다면 http://localhost:58080/emailupdateform?token=" + token + "&id="
+		String body = "이메일 변경 인증메일입니다.\n 본인이 요청한게 맞다면 http://www.localhost:58080/emailupdateform?token=" + token + "&id="
 				+ id + "&email=" + email + " 주소를 클릭해주세요!";
 
 		mailservice.transMail(body, email, subject);
@@ -324,4 +324,11 @@ public class MemberService {
 		md.memberSecession(seq);
 	}
 
+	public void socialJoin(Membervo mv) {
+		md.socialJoin(mv);
+	}
+
+	public Integer socialCheck(Membervo mv) {
+		return md.socailCheck(mv);
+	}
 }

@@ -11,25 +11,46 @@ function slide(menu) {
 	$('.menu_tap div').removeAttr('class', 'active_menu');
 	$('.menu_tap div').attr('class', 'menu');
 	$('#' + menu).attr('class', 'active_menu');
+	let coverright;
+	let coverleft;
+	let menuright;
+	let menuleft;
+	let bodyid = $('body').prop('id');
+	if (bodyid == 'large' || bodyid == 'mideum') {
+		coverleft = "30%";
+		coverright = "58%";
+		menuright = "30%";
+		menuleft = "64.5%";
+	} else if (bodyid == 'mobile') {
+		coverleft = "0%";
+		coverright = "50%";
+		menuright = "1.5%";
+		menuleft = "45%";
+	} else {
+		coverright = "55%"; // 오른쪽으로 이동 시 마진
+		coverleft = "35%"; // 왼쪽으로 이동 시 마진
+		menuright = "35%";
+		menuleft = "60.4%";
+	}
 	if (menu == 'menu1') {
 		$('.cover').css({
-			'margin-left' : '55%',
+			'margin-left' : coverright,
 			'transition' : '0.7s'
 		});
 
 		$('.menu_tap').css({
-			'margin-left' : '35%',
+			'margin-left' : menuright,
 			'transition' : '0.7s'
 		});
 
 	} else {
 		$('.cover').css({
-			'margin-left' : '35%',
+			'margin-left' : coverleft,
 			'transition' : '0.7s'
 		});
 
 		$('.menu_tap').css({
-			'margin-left' : '60.2%',
+			'margin-left' : menuleft,
 			'transition' : '0.7s'
 		});
 	}
@@ -45,12 +66,17 @@ function escape(value) {
 	return value;
 }
 $(document).ready(function() {
-
+	$('.header').load("/resources/header.html");
+	var width = $(window).width();
 	/* 공개키 변수 */
 	var RSAModulus = null;
 	var RSAExponent = null;
 	var targetid = null;
-
+	if (width <= 500) {
+		$('body').attr('id', 'mobile');
+	} else if (width <= 1280) {
+		$('body').attr('id', 'large');
+	}
 	// 공개키 요청
 	$.ajax({
 		url : 'rsacall',
@@ -67,12 +93,19 @@ $(document).ready(function() {
 
 	});
 
-	$('.header').load("/resources/header.html");
+
 	var tagval = getParameterByName('tag');
 
 	if (tagval == 'email') {
-		slide('menu2');
-		tagval == null;
+		let bodyid = $('body').prop('id');
+		if(bodyid=='mobile'){
+			slide('menu1');
+			tagval == null;
+		}else{
+			slide('menu2');
+			tagval == null;
+		}
+		
 	}
 	// 메뉴탭 클릭 기능
 	$('.menu_tap div').click(function() {
@@ -241,7 +274,7 @@ $(document).ready(function() {
 					'pw' : securedpw
 				},
 				success : function(result) {
-					
+
 					if (result) {
 						$.ajax({
 							url : 'emailresend',

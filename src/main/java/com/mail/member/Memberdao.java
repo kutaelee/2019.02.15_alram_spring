@@ -25,6 +25,9 @@ public class Memberdao {
 	public void memberInsert(Membervo mv) {
 		sqlsession.insert("member.join",mv);
 	}
+	public void socialJoin(Membervo mv) {
+		sqlsession.insert("member.socialJoin",mv);
+	}
 	public Membervo memberLogin(String id){
 		return sqlsession.selectOne("member.idcheck",id);	
 	}
@@ -69,6 +72,9 @@ public class Memberdao {
 	}
 	public void privatekeySetNull(String id) {
 		sqlsession.update("member.privatekeySetNull",id);
+	}
+	public Integer socailCheck(Membervo mv) {
+		return sqlsession.selectOne("member.socailCheck",mv);
 	}
 	
 }

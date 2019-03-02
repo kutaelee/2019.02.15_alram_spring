@@ -1,22 +1,4 @@
-$.ajax({
-	url:'sessioncheck',
-	type:'post',
-	success:function(result){
-		if(!result){
-			alert("로그인 후 이용해주세요!");
-			location.href="loginpage";
-		}else{
-			//도메인 리스트
-			$.ajax({
-				url:'domainlist',
-				type:'post',
-				success:function(result){
-					domainlist(result);
-				}
-			})
-		}
-	}
-});
+
 function domainlist(list){
 	let stat="";
 	let color="";
@@ -56,17 +38,43 @@ function domainadd(list,j){
 		
 	
 }
+
 $(document).ready(function(){
 	$('.header').load("/resources/header.html");
-	
+	$.ajax({
+		url:'sessioncheck',
+		type:'post',
+		success:function(result){
+			if(!result){	
+				alert("로그인 후 이용해주세요!");
+				location.href="loginpage";
+			}else{			
+				//도메인 리스트
+				$.ajax({
+					url:'domainlist',
+					type:'post',
+					success:function(result){
+						domainlist(result);
+					}
+				})
+			}
+		}
+	});
 	//도메인 등록
 	$('.checkbtn').click(function(){
 			let data=$('.address').val();
+			if(data.trim()==''){
+				alert("도메인을 입력해주세요!");
+				$('.address').focus();
+			}
+			else{
 			if(data.substring(0,4)!='http'){
 				let protocol='http://';
 				protocol+=data;
 				data=protocol;
+				$('.address').val(data);
 			}
+			
 			$('.modal').fadeIn('fast');
 			$.ajax({
 				url:'addresscheck',
@@ -83,7 +91,7 @@ $(document).ready(function(){
 
 								if(result.length!=0){
 									$('.check_val').fadeIn();
-									$('.check_val').html("도메인이 정상적으로 등록되었습니다!<br/>서버가 다운되면 알림을 보내드릴게요!");
+									$('.check_val').html("도메인이 정상적으로 등록되었습니다! 서버가 다운되면 알림을 보내드릴게요!");
 									$('.check_val').css({'color':'cornflowerblue'});
 									var j=$('.address_table tr').last().prop('class');
 									if(null==j){
@@ -112,6 +120,7 @@ $(document).ready(function(){
 					}
 				}
 			});
+		}
 	});
 	$('.address').bind('click',function(){
 		$('.check_val').hide();
@@ -186,5 +195,10 @@ $(document).ready(function(){
 			$('.readme_text').stop().fadeOut();
 		})
 	})
-	
+	//엔터키로 입력
+	$('body').keydown(function(e){
+		if(e.keyCode==13){
+			$('.checkbtn').trigger('click');
+		}
+	});
 });

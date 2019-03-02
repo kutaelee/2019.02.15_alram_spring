@@ -31,8 +31,7 @@ public class ServerCheckThread extends Thread{
 	
 	//serverCheck
 	public void run() {
-		System.out.println("스레드실행");
-		long start = System.currentTimeMillis();
+		//long start = System.currentTimeMillis();
 
 		List<HashMap<String, Object>> list = dd.serverCheck(map); // 등록된 서버중 상태가 정상인 서버리스트 모두 가져옴
 		
@@ -44,7 +43,6 @@ public class ServerCheckThread extends Thread{
 		for (HashMap<String, Object> i : list) {
 			
 			try {
-				System.out.println(i.get("address"));
 				url.append(i.get("address"));
 				HttpURLConnection connection = (HttpURLConnection) new URL(url.toString()).openConnection();
 				connection.setRequestMethod("HEAD");
@@ -61,9 +59,8 @@ public class ServerCheckThread extends Thread{
 				url.delete(0, url.length());
 			}
 		}
-		//실패한 url은 3번 더 체크하며 성공할 경우 리스트에서 삭제
-		for (int i = 0; i < 3; i++) {
-
+		//실패한 url은 3번 더 체크하며 성공할 경우 리스트에서 삭제 (서버체크 중 많은 실패 시 스레드 시간 문제로 검토 후 사용예정)
+/*		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < failserver.size(); j++) {
 				try {
 					url.append(failserver.get(j));
@@ -79,7 +76,7 @@ public class ServerCheckThread extends Thread{
 					url.delete(0, url.length());
 				}
 			}
-		}
+		}*/
 		list.clear();
 		for(String address:failserver) {
 			dd.statFailUpdate(address);
@@ -131,6 +128,7 @@ public class ServerCheckThread extends Thread{
 			}
 			body.append("서버를 정상으로 만드신 후에 도메인관리에서 갱신버튼을 눌러주세요!\n");	
 			body.append("갱신하지 않으시면 알림을 다시 보내드리지 않습니다!\n");
+			body.append("갱신은 http://www.serverchecker.shop/mypage 에서 진행하실 수 있습니다!");
 			
 			/* 만약 보낸사람 리스트에 이미 있으면 sw를 false로 만들어서 중복메일을 방지 */
 			for(String x:mailsendlist) {
@@ -157,8 +155,7 @@ public class ServerCheckThread extends Thread{
 		}
 		
 		
-		long end = System.currentTimeMillis();
-		System.out.println("실행 시간 : " + (end - start) / 1000.0);
+		//long end = System.currentTimeMillis();
 	}
 	public void bufferClear(List<StringBuffer> buffer) {
 		for(StringBuffer i:buffer) {

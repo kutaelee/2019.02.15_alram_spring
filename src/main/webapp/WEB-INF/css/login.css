@@ -9,7 +9,7 @@
 	border: 1px solid black;
 	width: 20%;
 	margin-left: 40.5%;
-	height: 50%;
+	height: 70%;
 	border-radius: 15px;
 	box-shadow: 1px 1px 5px grey;
 	margin-top: 2%;
@@ -17,7 +17,7 @@
 
 .login_title {
 	margin-left: 47%;
-	margin-top: 5%;
+	margin-top: 1%;
 }
 
 .login_form {
@@ -27,28 +27,28 @@
 
 .login_form p {
 	font-family: 'NanumSquareRound';
-	font-size: 25px;
+	font-size: 1.5vw;
 	color: black;
 	font-weight: bold;
 }
 
 .login_form input {
 	width: 75%;
-	height: 40px;
+	height: 4vh;
 	border: 1px solid grey;
 	border-radius: 3px;
 	box-shadow: 2px 1px 1px grey;
 	font-family: 'GyeonggiBatang';
 	font-weight: 600;
 	letter-spacing: 1px;
-	font-size: 17px;
+	font-size: 1vw;
 	padding-left: 5px;
 }
 
 .login_btn {
 	padding: 15px 80px 15px 80px;
 	margin-left: 15%;
-	font-size: 17;
+	font-size: 1.2vw;
 	background: black;
 	color: white;
 	cursor: pointer;
@@ -66,11 +66,11 @@
 	background: deeppink;
 	border: 1px solid deeppink;
 	transition: 0.3s;
-	color:white;
+	color: white;
 }
 
 .login_title {
-	font-size: 45px;
+	font-size: 3vw;
 }
 
 .login_body a {
@@ -78,4 +78,91 @@
 	color: #222A35;
 	font-family: 'Nanum Gothic', sans-serif;
 	text-underline-position: under;
+	font-size: .9vw;
+}
+
+.login_div h2 {
+	font-family: 'NanumSquareRound';
+	text-align: center;
+}
+
+.g-signin2 {
+	margin-left: 22%;
+}
+
+.naverlogin {
+	margin-top: 3%;
+	width: 190px;
+	cursor: pointer;
+	margin-left: 21.5%;
+	border: 2px solid white;
+}
+
+.naverlogin:hover {
+	border: 2px solid #8AE634;
+	border-radius: 7px;
+	transition: 0.4s;
+}
+
+@media ( max-width :1280px) {
+	.login_title {
+		font-size: 2.5vw;
+	}
+	h2 {
+		font-size: 1.5vw;
+	}
+	.login_div {
+		width: 24%;
+		height: 83%;
+		margin-top: 1%;
+		margin-left: 39%;
+	}
+	.login_form input {
+		height: 30px;
+	}
+	.login_btn {
+		padding: 5px 10px 5px 10px;
+	}
+	.g-signin2 {
+		margin-left: 10%;
+	}
+	.naverlogin {
+		margin-left: 9%;
+	}
+}
+
+@media ( max-width :500px) {
+	.login_title {
+		margin-left: 37%;
+		font-size: 35px;
+		margin-top:15%;
+	}
+	.login_div {
+		width: 90%;
+		margin-left: 5%;
+	    margin-top: 7%;
+		height: 80%;
+	}
+	.login_form p{
+			font-size: 20px;
+	}
+	.login_form input{
+	    height: 40px;
+	        font-size: 15px;
+	}
+	.login_btn{
+	     font-size: 17px;
+	}
+	.login_body a{
+	 font-size: 14px;
+	}
+	h2{
+	    font-size: 25px;
+	}
+	.g-signin2{
+	        margin-left: 22%;
+	}
+	.naverlogin{
+		margin-left:21%;
+	}
 }

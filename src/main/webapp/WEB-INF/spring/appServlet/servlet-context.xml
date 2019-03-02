@@ -31,6 +31,16 @@
 	<context:component-scan base-package="com.mail.member"/>
 	<context:component-scan base-package="com.mail.domain"/>
 	<context:component-scan base-package="com.mail.mail"/>
-	
-	
+	<context:component-scan base-package="com.mail.error">
+		    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+   			<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+    </context:component-scan>
+	<!-- google Class Bean설정 추가 -->
+<!-- 클라이언트ID와 보안비밀 세팅-->
+<!-- <beans:bean id="googleConnectionFactory"
+	class="org.springframework.social.google.connect.GoogleConnectionFactory">
+	<beans:constructor-arg value="" />
+	<beans:constructor-arg value="" />
+</beans:bean> -->
+
 </beans:beans>

@@ -1,10 +1,10 @@
 package com.mail.member;
 
+import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -27,6 +27,7 @@ public class MemberController {
 	Membervo mv;
 	@Autowired
 	MemberService ms;
+
 
 	// 로그인 세션체크
 	@PostMapping(value = "sessioncheck")
@@ -89,13 +90,12 @@ public class MemberController {
 		}
 	}
 
-	// 멤버확인
-	@PostMapping(value = "member")
-	public @ResponseBody List<HashMap<String, Object>> showmember() {
-		mv.setId("admin");
-		return ms.showmember();
-	}
-
+	/*
+	 * // 멤버확인
+	 * 
+	 * @PostMapping(value = "member") public @ResponseBody List<HashMap<String,
+	 * Object>> showmember() { mv.setId("admin"); return ms.showmember(); }
+	 */
 	// 암호화키 생성
 	@PostMapping(value = "rsacall")
 	public @ResponseBody Map<String, String> joinPage(HttpServletRequest req, HttpSession session)
@@ -334,14 +334,13 @@ public class MemberController {
 			return true;
 		}
 	}
-	
-	
+
 	@GetMapping(value = "emailupdateform")
 	public String emailUpdateForm(HttpServletRequest req, HttpSession session) {
 		String id = req.getParameter("id");
 		String token = req.getParameter("token");
 		String email = req.getParameter("email");
-		if (StringUtils.isEmpty(id) || StringUtils.isEmpty(token)|| StringUtils.isEmpty(email)) {
+		if (StringUtils.isEmpty(id) || StringUtils.isEmpty(token) || StringUtils.isEmpty(email)) {
 			return "home";
 		} else {
 			session.setAttribute("emailupdateid", id);
@@ -351,17 +350,17 @@ public class MemberController {
 		}
 	}
 
-	@PostMapping(value = "emailupdate",produces="aplication/text;charset=utf-8")
+	@PostMapping(value = "emailupdate", produces = "aplication/text;charset=utf-8")
 	public @ResponseBody String emailUpdate(HttpServletRequest req, HttpSession session) {
 		String id = (String) session.getAttribute("emailupdateid");
 		String token = (String) session.getAttribute("emailupdatetoken");
 		String email = (String) session.getAttribute("emailupdatetagret");
-		
-		if (StringUtils.isEmpty(id) || StringUtils.isEmpty(token)|| StringUtils.isEmpty(email)) {
+
+		if (StringUtils.isEmpty(id) || StringUtils.isEmpty(token) || StringUtils.isEmpty(email)) {
 			return "인증값이 잘못되었습니다.";
 		} else {
 			if (ms.authUpdate(id, token)) {
-				ms.emailUpdate(id,email);
+				ms.emailUpdate(id, email);
 				return "이메일이 정상적으로 변경되었습니다!<br/><br/>가입인증도 아직 하지 않으셨다면 같이 완료되었습니다!";
 			} else {
 				return "인증값이 잘못되었거나 세션이 만료된 페이지입니다.";
@@ -415,4 +414,111 @@ public class MemberController {
 		session.invalidate();
 		return true;
 	}
+
+	/*
+	 * @PostMapping(value="googleurl") public @ResponseBody String googleUrl() {
+	 * 구글code 발행 OAuth2Operations oauthOperations =
+	 * googleConnectionFactory.getOAuthOperations(); String url =
+	 * oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE,
+	 * googleOAuth2Parameters);
+	 * 
+	 * return url;
+	 * 
+	 * }
+	 * 
+	 * 
+	 * @GetMapping(value = "/oauth2callback") public String
+	 * doSessionAssignActionPage(HttpServletRequest req,HttpSession session)throws
+	 * Exception{ String code = req.getParameter("code");
+	 * 
+	 * OAuth2Operations oauthOperations =
+	 * googleConnectionFactory.getOAuthOperations(); AccessGrant accessGrant =
+	 * oauthOperations.exchangeForAccess(code ,
+	 * googleOAuth2Parameters.getRedirectUri(), null);
+	 * 
+	 * String accessToken = accessGrant.getAccessToken(); Long expireTime =
+	 * accessGrant.getExpireTime(); if (expireTime != null && expireTime <
+	 * System.currentTimeMillis()) { accessToken = accessGrant.getRefreshToken(); }
+	 * Connection<Google> connection =
+	 * googleConnectionFactory.createConnection(accessGrant); Google google =
+	 * connection == null ? new GoogleTemplate(accessToken) : connection.getApi();
+	 * google PlusOperations plusOperations = google.plusOperations(); Person
+	 * profile = plusOperations.getGoogleProfile();
+	 * mv.setEmail(profile.getEmailAddresses().toString());
+	 * mv.setId("google_"+profile.getId()); String seq=ms.socialCheck(mv);
+	 * if(!StringUtils.isEmpty(seq)) { session.setAttribute("userseq", seq); }else {
+	 * ms.socialJoin(mv); seq=ms.socialCheck(mv); session.setAttribute("userseq",
+	 * seq); }
+	 * 
+	 * return "home"; }
+	 */
+
+	@PostMapping(value = "googlelogin")
+	public @ResponseBody boolean googleLogin(HttpServletRequest req, HttpSession session) {
+		String email = req.getParameter("email");		
+		PrivateKey privateKey = (PrivateKey) session.getAttribute("privateKey");
+		email = ms.decryptRsa(privateKey, email);
+		String[] id=email.split("@");
+
+		mv.setId("google_"+id[0]);
+		mv.setEmail(email);
+
+		
+		if (!ObjectUtils.isEmpty(ms.socialCheck(mv))) {
+			/*기존회원 로그인*/
+			session.setAttribute("userseq", ms.socialCheck(mv));
+			session.setAttribute("social",true);
+			return true; 
+		} else {
+			/* 신규가입 */
+			if(ms.emailCheck(email)) {
+				ms.socialJoin(mv);
+				session.setAttribute("userseq", ms.socialCheck(mv));
+				session.setAttribute("social",true);
+				return true; 
+			}else {
+				return false;
+			}
+		
+		}
+		
+	}
+	@PostMapping(value="socialusercheck")
+	public @ResponseBody boolean socialUserCheck(HttpSession session) {
+		if(ObjectUtils.isEmpty(session.getAttribute("social"))){
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+
+	@PostMapping(value="naverlogin")
+	public @ResponseBody boolean naverLogin(HttpServletRequest req,HttpSession session) {
+		String email = req.getParameter("email");
+		String[] id=email.split("@");
+		mv.setId("naver_"+id[0]);
+		mv.setEmail(email);
+
+		
+		if (!ObjectUtils.isEmpty(ms.socialCheck(mv))) {
+			/*기존회원 로그인*/
+			session.setAttribute("userseq", ms.socialCheck(mv));
+			session.setAttribute("social",true);
+			return true; 
+		} else {
+			/* 신규가입 */
+			if(ms.emailCheck(email)) {
+				ms.socialJoin(mv);
+				session.setAttribute("userseq", ms.socialCheck(mv));
+				session.setAttribute("social",true);
+				return true; 
+			}else {
+				return false;
+			}
+		
+		}
+		
+	}
+
 }
