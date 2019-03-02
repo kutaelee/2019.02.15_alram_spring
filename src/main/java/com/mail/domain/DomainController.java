@@ -25,7 +25,8 @@ public class DomainController {
 	DomainService ds;
 	@Autowired
 	Domaindao dd;
-	
+	public static final String USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36";
+
 	@GetMapping(value="domainupdateform")
 	public String domainUpdateForm(HttpServletRequest req) throws AddressException, MessagingException {
 		return "domain";
@@ -53,7 +54,7 @@ public class DomainController {
 
 	}
 	//프로토콜 유효성 검사
-	public String urlHeader(String url) {
+	public static String urlHeader(String url) {
 		
 		if(url.substring(0,7).equals("http://")) {
 			return url;
@@ -113,15 +114,17 @@ public class DomainController {
 	@PostMapping(value="domainreload")
 	public @ResponseBody boolean domainReload(HttpServletRequest req) {
 		String url=req.getParameter("url");
+		
 		if(url.length()<9) {
 			return false;
 		}
 		url=urlHeader(url);
+		HttpURLConnection connection=null;
 		try {
-			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+			connection = (HttpURLConnection) new URL(url).openConnection();
+			connection.setRequestProperty("User-Agent",USER_AGENT);
 			connection.setRequestMethod("HEAD");
-			int responseCode = connection.getResponseCode();
-			if (responseCode != 200) {
+			if (!urlConnection(connection)) {
 				return false;
 			} else {
 				ds.statSuccessUpdate(url);
@@ -130,7 +133,41 @@ public class DomainController {
 
 		} catch (IOException e) {
 			return false;
+		} finally {
+			connection.disconnect();
 		}
 		
 	}
+	static double time=0;
+	//커넥션을 세팅하고 넘겨주면 상태코드를 확인하고 서버의 생존유무를 리턴
+		public static boolean urlConnection(HttpURLConnection connection) {
+			try {
+				int responseCode = connection.getResponseCode();
+
+				//200코드가 아닐 경우
+				if (responseCode != 200) {
+					
+					for (int i = 0; i < 5; i++) {
+						// 만약 301,302,307 코드와 같이 url과 uri가 변경된다면
+						if (responseCode == HttpURLConnection.HTTP_MOVED_TEMP
+								|| responseCode == HttpURLConnection.HTTP_MOVED_PERM) {
+							URL redirectUrl = new URL(connection.getHeaderField("Location")); //로케이션 값을 구해서 다시연결
+							connection = (HttpURLConnection) redirectUrl.openConnection();
+							responseCode = connection.getResponseCode();
+							if (responseCode == 200) {
+								return true; //200코드가 나오면 true 리턴
+							}
+						}else {
+							break; //성공 코드 또는 리다이렉트 코드가 아니면 false 리턴
+						}
+					}
+					return false; //5번 이상 리다이렉트를 한다면 서버다운으로 간주하고 false 리턴
+				} else {
+					return true; //성공코드이므로 true 리턴
+				}
+
+			} catch (IOException e) {
+				return false; //잘못된 도메인 false 리턴
+			} 
+		}
 }
