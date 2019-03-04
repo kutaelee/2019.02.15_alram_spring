@@ -33,15 +33,10 @@ public class DomainService {
 	public static List<HashMap<String, Object>> list=new ArrayList<HashMap<String,Object>>(); //접속실패 도메인 리스트 스레드 마지막에  only add all
 	
 	public HashMap<String, Object> domainInsert(String url, int seq) {
-		if (dd.domainCount(seq) < 5) {
 			dv.setMaster_seq(seq);
 			dv.setAddress(url);
 			dd.domainInsert(dv);
 			return dd.domainSelect(seq);
-		} else {
-			return null;
-		}
-
 	}
 
 	public void domainDelete(String url, int seq) {
@@ -142,7 +137,7 @@ public class DomainService {
 					}
 					body.append("서버를 정상으로 만드신 후에 도메인관리에서 갱신버튼을 눌러주세요!\n");	
 					body.append("갱신하지 않으시면 알림을 다시 보내드리지 않습니다!\n");
-					body.append("갱신은 http://www.serverchecker.shop/mypage 에서 진행하실 수 있습니다!");
+					body.append("갱신은 https://www.serverchecker.shop/domainupdateform 에서 진행하실 수 있습니다!");
 					
 					/* 만약 보낸사람 리스트에 이미 있으면 sw를 false로 만들어서 중복메일을 방지 */
 					for(String x:mailsendlist) {

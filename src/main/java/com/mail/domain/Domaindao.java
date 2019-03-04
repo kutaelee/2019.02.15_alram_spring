@@ -27,8 +27,8 @@ public class Domaindao {
 		return sqlsession.selectOne("domain.domainSelect",master_seq);
 	}
 
-	public String domainCheck(String check) {
-		return sqlsession.selectOne("domain.domainCheck",check);
+	public String domainDupleCheck(String keyword) {
+		return sqlsession.selectOne("domain.domainDupleCheck",keyword);
 	}
 
 	public void domainDelete(Domainvo dv) {

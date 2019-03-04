@@ -19,8 +19,8 @@
   <select id="domainSelect" parameterType="int" resultType="hashMap">
   	select address,stat from domain where master_seq=#{master_seq} order by reg_date desc limit 1
   </select>
-  <select id="domainCheck" parameterType="string" resultType="string">
-  	select master_seq from domain where address like CONCAT('%',#{keyword})
+  <select id="domainDupleCheck" parameterType="string" resultType="string">
+  	select master_seq from domain where address like CONCAT('%',#{keyword}) limit 1
   </select>
   <delete id="domainDelete">
   	delete from domain where address=#{address} and master_seq=#{master_seq}

@@ -2,6 +2,7 @@ package com.mail.domain;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -36,14 +37,35 @@ public class DomainController {
 		int seq=(Integer) session.getAttribute("userseq");
 		return dd.domainList(seq);
 	}
+	@GetMapping(value="domainlistcount")
+	public @ResponseBody boolean domainListCount(HttpSession session) {
+		int seq=(Integer)session.getAttribute("userseq");
+		if (dd.domainCount(seq) < 5) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	@PostMapping(value="domaininsert")
-	public @ResponseBody HashMap<String,Object> domainInsert(HttpServletRequest req,HttpSession session){
+	public @ResponseBody HashMap<String,Object> domainInsert(HttpServletRequest req,HttpSession session) {
 		int seq=(Integer)session.getAttribute("userseq");
 		String url=req.getParameter("url");
+
+		//유효성 체크
 		if(url.length()<9) {
 			return null;
 		}
-		
+		url = urlHeader(url);
+
+		//커넥션 체크
+		try {
+			HttpURLConnection connection=connectionSet(url);
+			if(!urlConnection(connection)) {
+				return null;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		//중복도메인이 아니라면
 		if(dupleCheck(url)) {	
 			url=urlHeader(url);
@@ -52,6 +74,13 @@ public class DomainController {
 			return null;
 		}
 
+	}
+	//커넥션 세팅
+	public static HttpURLConnection connectionSet(String url) throws MalformedURLException, IOException {
+		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+		connection.setRequestProperty("User-Agent",DomainController.USER_AGENT);
+		connection.setRequestMethod("HEAD");
+		return connection;
 	}
 	//프로토콜 유효성 검사
 	public static String urlHeader(String url) {
@@ -70,7 +99,6 @@ public class DomainController {
 		if(StringUtils.isEmpty(url)) {
 			return false;
 		}
-		
 		String check=null;
 		
 		//앞자리 잘라냄
@@ -84,7 +112,8 @@ public class DomainController {
 		if(check.substring(0,4).equals("www.")) {
 			check=check.substring(4,check.length());
 		}
-		String duple=dd.domainCheck(check);
+		String duple=dd.domainDupleCheck(check);
+
 		if(StringUtils.isEmpty(duple)) {
 			return true;
 		}else {

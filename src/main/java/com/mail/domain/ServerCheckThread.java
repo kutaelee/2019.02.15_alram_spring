@@ -44,9 +44,7 @@ public class ServerCheckThread extends Thread{
 			
 			try {
 				url.append(i.get("address"));
-				connection = (HttpURLConnection) new URL(url.toString()).openConnection();
-				connection.setRequestProperty("User-Agent",DomainController.USER_AGENT);
-				connection.setRequestMethod("HEAD");
+				connection=DomainController.connectionSet(url.toString());
 				if(!DomainController.urlConnection(connection)) { // urlConnection 함수는 상태코드판별 후 200이면 true 리턴
 					failserver.add(url.toString());
 				}

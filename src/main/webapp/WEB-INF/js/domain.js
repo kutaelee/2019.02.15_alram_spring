@@ -74,25 +74,23 @@ $(document).ready(function(){
 				data=protocol;
 				$('.address').val(data);
 			}
-			
 			$('.modal').fadeIn('fast');
 			$.ajax({
-				url:'addresscheck',
-				type:'post',
-				data:{'url':data},
+				url:'domainlistcount',
+				type:'get',
 				success:function(result){
 					if(result){
 						$.ajax({
 							url:'domaininsert',
-							type:'post',
+							type:'POST',
 							data:{'url':data},
 							success:function(result){
 								$('.modal').fadeOut('fast');
 
 								if(result.length!=0){
-									$('.check_val').fadeIn();
 									$('.check_val').html("도메인이 정상적으로 등록되었습니다! 서버가 다운되면 알림을 보내드릴게요!");
 									$('.check_val').css({'color':'cornflowerblue'});
+									$('.check_val').fadeIn();					
 									var j=$('.address_table tr').last().prop('class');
 									if(null==j){
 										j=-1;
@@ -101,9 +99,9 @@ $(document).ready(function(){
 									j=j*1+1;
 									domainadd(result,j);
 								}else{
-									$('.check_val').fadeIn();
-									$('.check_val').text("서버를 5개 이상 등록하셨거나 이미 등록된 도메인 입니다!");
-									$('.check_val').css({'color':'crimson'});
+									$('.check_val').attr('id','fail');
+									$('.check_val').text("다른유저가 이미 등록한 도메인이거나 다운된 서버의 도메인 입니다!");
+									$('.check_val').fadeIn();									
 								}
 							
 							},
@@ -114,12 +112,17 @@ $(document).ready(function(){
 						});
 					}else{
 						$('.modal').fadeOut('fast');
-						$('.check_val').fadeIn();
-						$('.check_val').text("정상인 서버만 등록이 가능합니다! (http와 https도 구분합니다)");
-						$('.check_val').css({'color':'crimson'});
+						$('.check_val').attr('id','fail');
+						$('.check_val').text("도메인은 최대 5개까지만 등록 가능합니다!");
+						$('.check_val').fadeIn();	
 					}
+				},error:function(){
+					$('.modal').fadeOut('fast');
+					alert("등록한 도메인 개수 조회중 문제발생!");
 				}
 			});
+					
+			
 		}
 	});
 	$('.address').bind('click',function(){
@@ -176,7 +179,7 @@ $(document).ready(function(){
 					$('.'+list+' td:last-child').children('.domain_reload_btn').remove();
 					alert("갱신이 완료되었습니다!");
 				}else{
-					alert("서버가 정상일때만 갱신이 가능합니다. 확인후 다시 시도해주세요!");
+					alert("서버가 정상일때만 갱신이 가능합니다.\n확인후 다시 시도해주세요!");
 				}
 		
 			},

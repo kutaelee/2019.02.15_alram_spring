@@ -48,18 +48,17 @@ public class HomeController {
 	
 	@PostMapping(value = "addresscheck")
 	public @ResponseBody boolean addrescheck(HttpServletRequest req) {
-
 		String url = req.getParameter("url");
 		HttpURLConnection connection = null;
-		HttpURLConnection.setFollowRedirects(false);
+		HttpURLConnection.setFollowRedirects(true);
+		
 		if (url.length() < 9) {
+		
 			return false;
 		}
 		url = DomainController.urlHeader(url);
 		try {
-			connection = (HttpURLConnection) new URL(url).openConnection();
-			connection.setRequestProperty("User-Agent",DomainController.USER_AGENT);
-				connection.setRequestMethod("HEAD");
+			connection=DomainController.connectionSet(url);
 				return DomainController.urlConnection(connection);
 		} catch (MalformedURLException e) {
 			return false;

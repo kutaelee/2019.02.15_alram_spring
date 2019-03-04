@@ -272,7 +272,13 @@ body {
 	font-family: 'NanumSquareRound';
 	text-decoration: none;
 }
-
+#suc{
+	cursor:pointer;
+	color:cornflowerblue;
+}
+#fail{
+	color:crimson;
+}
 @media ( max-width :1280px) {
 	.nav_body ul {
 		font-size: 18px;
@@ -321,4 +327,5 @@ body {
 		top: 40%;
     	left: 50%;
 	}
+	
 }

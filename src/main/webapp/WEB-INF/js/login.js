@@ -79,7 +79,18 @@ $(document).ready(function() {
 			alert("특수문자는 사용하지말아주세요!");
 		}
 	});
-
+	
+	//엔터 키 입력 
+	$('.login_id').keyup(function(e){
+		if(e.keyCode==13){
+				$('.login_pw').focus();
+			}
+	})
+	$('.login_pw').keyup(function(e){
+		if(e.keyCode==13){
+				$('.login_btn').trigger('click');
+			}
+	})
 	$('.login_btn').click(function() {
 		$('.modal').fadeIn('fast');
 		var id = $('.login_id').val();
