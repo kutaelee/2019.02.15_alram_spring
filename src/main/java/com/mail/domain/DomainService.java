@@ -24,8 +24,6 @@ public class DomainService {
 	@Autowired
 	Domaindao dd;
 	@Autowired
-	Domainvo dv;
-	@Autowired
 	MailService mailservice;
 	@Autowired
 	Memberdao md;
@@ -33,6 +31,7 @@ public class DomainService {
 	public static List<HashMap<String, Object>> list=new ArrayList<HashMap<String,Object>>(); //접속실패 도메인 리스트 스레드 마지막에  only add all
 	
 	public HashMap<String, Object> domainInsert(String url, int seq) {
+			Domainvo dv=new Domainvo();
 			dv.setMaster_seq(seq);
 			dv.setAddress(url);
 			dd.domainInsert(dv);
@@ -40,6 +39,7 @@ public class DomainService {
 	}
 
 	public void domainDelete(String url, int seq) {
+		Domainvo dv=new Domainvo();
 		dv.setAddress(url);
 		dv.setMaster_seq(seq);
 		dd.domainDelete(dv);

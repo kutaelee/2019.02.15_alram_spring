@@ -88,12 +88,6 @@ public class MemberController {
 		}
 	}
 
-	/*
-	 * // 멤버확인
-	 * 
-	 * @PostMapping(value = "member") public @ResponseBody List<HashMap<String,
-	 * Object>> showmember() { mv.setId("admin"); return ms.showmember(); }
-	 */
 	// 암호화키 생성
 	@PostMapping(value = "rsacall")
 	public @ResponseBody Map<String, String> joinPage(HttpServletRequest req, HttpSession session)
@@ -412,44 +406,6 @@ public class MemberController {
 		session.invalidate();
 		return true;
 	}
-
-	/*
-	 * @PostMapping(value="googleurl") public @ResponseBody String googleUrl() {
-	 * 구글code 발행 OAuth2Operations oauthOperations =
-	 * googleConnectionFactory.getOAuthOperations(); String url =
-	 * oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE,
-	 * googleOAuth2Parameters);
-	 * 
-	 * return url;
-	 * 
-	 * }
-	 * 
-	 * 
-	 * @GetMapping(value = "/oauth2callback") public String
-	 * doSessionAssignActionPage(HttpServletRequest req,HttpSession session)throws
-	 * Exception{ String code = req.getParameter("code");
-	 * 
-	 * OAuth2Operations oauthOperations =
-	 * googleConnectionFactory.getOAuthOperations(); AccessGrant accessGrant =
-	 * oauthOperations.exchangeForAccess(code ,
-	 * googleOAuth2Parameters.getRedirectUri(), null);
-	 * 
-	 * String accessToken = accessGrant.getAccessToken(); Long expireTime =
-	 * accessGrant.getExpireTime(); if (expireTime != null && expireTime <
-	 * System.currentTimeMillis()) { accessToken = accessGrant.getRefreshToken(); }
-	 * Connection<Google> connection =
-	 * googleConnectionFactory.createConnection(accessGrant); Google google =
-	 * connection == null ? new GoogleTemplate(accessToken) : connection.getApi();
-	 * google PlusOperations plusOperations = google.plusOperations(); Person
-	 * profile = plusOperations.getGoogleProfile();
-	 * mv.setEmail(profile.getEmailAddresses().toString());
-	 * mv.setId("google_"+profile.getId()); String seq=ms.socialCheck(mv);
-	 * if(!StringUtils.isEmpty(seq)) { session.setAttribute("userseq", seq); }else {
-	 * ms.socialJoin(mv); seq=ms.socialCheck(mv); session.setAttribute("userseq",
-	 * seq); }
-	 * 
-	 * return "home"; }
-	 */
 
 	@PostMapping(value = "googlelogin")
 	public @ResponseBody boolean googleLogin(HttpServletRequest req, HttpSession session) {

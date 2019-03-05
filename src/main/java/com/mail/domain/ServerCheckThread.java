@@ -86,10 +86,10 @@ public class ServerCheckThread extends Thread{
 		List<HashMap<String,String>> failmember = DomainService.failmember;
 		for(HashMap<String, Object> i : list) {
 			int seq=(Integer) i.get("master_seq");
-			failmember.add(md.MemberCheckSeq(seq));	
+			failmember.add(md.MemberCheckSeq(seq));	//failmember 데이터 주입
 		}
 		
-		DomainService.list.addAll(list);
+		DomainService.list.addAll(list); //list 데이터 주입
 		//long end = System.currentTimeMillis();
 	}
 	

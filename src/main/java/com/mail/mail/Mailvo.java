@@ -15,35 +15,22 @@ public class Mailvo {
 	private String port;
 	@Value("#{mail['mail.token']}")
 	private String token;
-	
+	//only getter
 	public String getHost() {
 		return host;
-	}
-	public void setHost(String host) {
-		this.host = host;
 	}
 	public String getAdmin() {
 		return admin;
 	}
-	public void setAdmin(String admin) {
-		this.admin = admin;
-	}
 	public String getPassword() {
 		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	public String getPort() {
 		return port;
 	}
-	public void setPort(String port) {
-		this.port = port;
-	}
 	public String getToken() {
 		return token;
 	}
-	public void setToken(String token) {
-		this.token = token;
-	}
+	
+
 }
